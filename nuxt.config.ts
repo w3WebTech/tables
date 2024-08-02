@@ -46,6 +46,7 @@ export default defineNuxtConfig({
   plugins: ['@/plugins/vuetify/index.ts',
     '@/plugins/iconify/index.ts',
     '~/plugins/preline.client.ts',
+       '~/plugins/flatpickr.ts'
     ],
 
   imports: {

@@ -1,16 +1,25 @@
 <script lang="ts" setup>
-console.log('trigger')
 import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 </script>
 
 <template>
+  <!-- 👉 Dashboards -->
+
   <VerticalNavLink
     :item="{
-      title: 'TABLE',
-      icon: 'ri-arrow-right-double-line',
+      title: 'Dashboard',
+      to: '/dashboard',
+    }"
+  />
+
+  <VerticalNavLink
+    :item="{
+      title: 'Progress',
+      icon: 'ri-table-alt-line',
       to: '/tables',
     }"
   />
 </template>
+
+
