@@ -1,10 +1,9 @@
 <template>
-  <div class="container mx-auto pt-1">
+  <div>
     <input
       id="datepicker"
-      type="text"
       placeholder="Select Date Range"
-      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+      class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
     />
   </div>
 </template>
@@ -44,4 +43,12 @@ function formatDateToISO(date: Date): string {
   return `${yyyy}-${mm}-${dd}`
 }
 </script>
+<style lang="scss" scoped>
+.dark-mode input#datepicker {
+  /* Your dark mode styles */
+  background-color: #222;
+  color: #fff;
+  border-color: #444;
+}
+</style>
 

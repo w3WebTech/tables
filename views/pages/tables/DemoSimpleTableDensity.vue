@@ -6,31 +6,13 @@
     <v-container class="w-100 h-600">
       <v-row no-gutters>
         <v-col
-          cols="5"
+          cols="3"
           class="d-flex justify-center align-end"
         >
-          <!-- <div>
-            <label for="start-date">Start Date:</label>
-            <input
-              v-model="startDate"
-              type="date"
-              style="border: 1px solid black; border-radius: 5px"
-              class="w-100 pa-2"
-            />
-          </div>
-          <div>
-            <label for="end-date">End Date:</label>
-            <input
-              v-model="endDate"
-              type="date"
-              style="border: 1px solid black; border-radius: 5px"
-              class="w-100 pa-2"
-            />
-          </div> -->
           <DateRangePicker @selecteddate="selectdate" />
         </v-col>
         <v-col
-          cols="3"
+          cols="5"
           class="d-flex justify-center align-end"
         >
           <input
@@ -258,7 +240,7 @@ const fetchData = async () => {
       to: endDate.value,
     }
 
-    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerStocksView.php', data)
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/ps-view.php', data)
 
     // Debug after successful response
     console.log(response.data, 'response.data') // Ensure this logs the expected data structure
@@ -276,14 +258,12 @@ const dateRange = ref('')
 const filteredDesserts = computed(() => {
   console.log('Filtered Desserts Computation Started')
   const query = search.value.toLowerCase()
-  const start = startDate.value ? new Date(startDate.value) : null
-  const end = endDate.value ? new Date(endDate.value) : null
-
-  console.log('Query:', query)
-  console.log('Start Date:', start)
-  console.log('End Date:', end)
-
-  const filtered = productdetails.value
+  const filtered = productdetails.value.filter(item => {
+    const searchText = Object.values(item.orderData) // Assuming orderData contains searchable fields
+      .join(' ') // Combine all searchable fields into a single string
+      .toLowerCase()
+    return searchText.includes(query)
+  })
   return filtered
 })
 
