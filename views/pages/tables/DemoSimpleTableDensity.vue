@@ -26,17 +26,20 @@
           class="d-flex justify-end justify-space-evenly align-end"
         >
           <div class="hide_menu mt-5">
-            <div>
+            <!-- <div>
               <v-btn
                 @click="toggleDropdown"
                 class="w-150 bg-logcolor mt-2"
               >
                 Hide/Show Column
               </v-btn>
+            </div> -->
+            <div class="demo-space-x pb-3">
+              <VSwitch v-model="isOpen" />
             </div>
             <div
               v-if="isOpen"
-              class="dr w-100 origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+              class="dr w-500 p-2 origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
             >
               <div class="drop-menu my-2">
                 <label
@@ -44,7 +47,7 @@
                   for="id"
                 >
                   <input
-                    class="cols"
+                    class="cols whitespace-nowrap"
                     type="checkbox"
                     id="id"
                     v-model="columnVisibility.clientId"
@@ -55,7 +58,7 @@
                   for="name"
                 >
                   <input
-                    class="cols"
+                    class="cols whitespace-nowrap"
                     type="checkbox"
                     id="name"
                     v-model="columnVisibility.stockSymbol"
@@ -66,7 +69,7 @@
                   for="date"
                 >
                   <input
-                    class="cols"
+                    class="cols whitespace-nowrap"
                     type="checkbox"
                     id="date"
                     v-model="columnVisibility.buySellType"
@@ -77,7 +80,7 @@
                   for="status"
                 >
                   <input
-                    class="cols"
+                    class="cols whitespace-nowrap"
                     type="checkbox"
                     id="status"
                     v-model="columnVisibility.quantity"
@@ -110,7 +113,7 @@
                   for="action"
                 >
                   <input
-                    class="cols"
+                    class="cols whitespace-nowrap"
                     type="checkbox"
                     id="action"
                     v-model="columnVisibility.view_user"
@@ -141,22 +144,22 @@
               <template v-slot:item="{ item }">
                 <tr class="">
                   <td v-if="columnVisibility.clientId">
-                    <p class="text-black mt-4">{{ item.orderData.ClientId }}</p>
+                    <p class="mt-4">{{ item.orderData.ClientId }}</p>
                   </td>
                   <td v-if="columnVisibility.stockSymbol">
-                    <p class="text-black mt-4">{{ item.orderData.StockSymbol }}</p>
+                    <p class="mt-4">{{ item.orderData.StockSymbol }}</p>
                   </td>
                   <td v-if="columnVisibility.buySellType">
-                    <p class="text-black mt-4">{{ item.orderData.BuySell }}</p>
+                    <p class="mt-4">{{ item.orderData.BuySell }}</p>
                   </td>
                   <td v-if="columnVisibility.quantity">
-                    <p class="text-black mt-4">{{ item.orderData.Quantity }}</p>
+                    <p class="mt-4">{{ item.orderData.Quantity }}</p>
                   </td>
                   <td v-if="columnVisibility.date">
-                    <p class="text-black mt-4">{{ item.orderData.date }}</p>
+                    <p class="mt-4">{{ item.orderData.date }}</p>
                   </td>
                   <td v-if="columnVisibility.plan">
-                    <p class="text-black mt-4">{{ item.orderData.plan }}</p>
+                    <p class="mt-4">{{ item.orderData.plan }}</p>
                   </td>
                   <td v-if="columnVisibility.view_user">
                     <v-btn

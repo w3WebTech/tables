@@ -46,7 +46,7 @@ export default defineComponent({
       )
 
       // 👉 Footer
-      const footer = h('footer', { class: 'layout-footer bg-white' }, [
+      const footer = h('footer', { class: 'layout-footer ' }, [
         h('div', { class: 'footer-content-container' }, slots.footer?.()),
       ])
 
