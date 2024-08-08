@@ -26,98 +26,70 @@
           class="d-flex justify-end justify-space-evenly align-end"
         >
           <div class="hide_menu mt-5">
-            <!-- <div>
+            <div>
               <v-btn
                 @click="toggleDropdown"
                 class="w-150 bg-logcolor mt-2"
               >
                 Hide/Show Column
               </v-btn>
-            </div> -->
-            <div class="demo-space-x pb-3">
-              <VSwitch v-model="isOpen" />
             </div>
+            <!-- <div class="demo-space-x pb-4">
+              <VSwitch v-model="isOpen" />
+            </div> -->
             <div
               v-if="isOpen"
               class="dr w-500 p-2 origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
             >
               <div class="drop-menu my-2">
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="id"
-                >
-                  <input
-                    class="cols whitespace-nowrap"
-                    type="checkbox"
-                    id="id"
-                    v-model="columnVisibility.clientId"
-                  />Client Code
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.clientId" />
+                  </div>
+
+                  <span class="text-xs font-medium text-gray-900">ClientCode</span>
                 </label>
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="name"
-                >
-                  <input
-                    class="cols whitespace-nowrap"
-                    type="checkbox"
-                    id="name"
-                    v-model="columnVisibility.stockSymbol"
-                  />Stock Symbol
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.stockSymbol" />
+                  </div>
+
+                  <span class="text-xs font-medium text-gray-900">StockSymbol</span>
                 </label>
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="date"
-                >
-                  <input
-                    class="cols whitespace-nowrap"
-                    type="checkbox"
-                    id="date"
-                    v-model="columnVisibility.buySellType"
-                  />Buy/Sell Type
+
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.buySellType" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">Buy/SellType</span>
                 </label>
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="status"
-                >
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <VSwitch v-model="columnVisibility.quantity" />
                   <input
                     class="cols whitespace-nowrap"
                     type="checkbox"
                     id="status"
-                    v-model="columnVisibility.quantity"
-                  />Quantity
+                  />
+                  <span class="text-xs font-medium text-gray-900">Quantity</span>
                 </label>
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="purchased"
-                >
-                  <input
-                    class="cols"
-                    type="checkbox"
-                    id="purchased"
-                    v-model="columnVisibility.date"
-                  />Date
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.date" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">Date</span>
                 </label>
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="purchased"
-                >
-                  <input
-                    class="cols"
-                    type="checkbox"
-                    id="purchased"
-                    v-model="columnVisibility.plan"
-                  />Plan
+                <br />
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.plan" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">Plan</span>
                 </label>
-                <label
-                  class="text-h6 d-flex ga-2"
-                  for="action"
-                >
-                  <input
-                    class="cols whitespace-nowrap"
-                    type="checkbox"
-                    id="action"
-                    v-model="columnVisibility.view_user"
-                  />View User
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.view_user" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">ViewUser</span>
                 </label>
               </div>
             </div>
