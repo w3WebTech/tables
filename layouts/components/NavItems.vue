@@ -20,6 +20,20 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       to: '/tables',
     }"
   />
+  <VerticalNavGroup
+    :item="{
+      title: 'Manage Client',
+
+      icon: 'ri-home-smile-line',
+    }"
+  >
+    <VerticalNavLink
+      :item="{
+        title: 'Add Client',
+        to: '/clientData',
+      }"
+    />
+  </VerticalNavGroup>
 </template>
 
 

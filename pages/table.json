@@ -1,0 +1,59 @@
+{
+    "name": "Archana",
+    "panNumber": "AU0XXXXXXB",
+    "branch": "AU0XXXXXXB",
+    "email": "archana@gmail.com",
+    "calls": [
+        {
+            "StockSymbol": "HDFCBANK-EQ",
+            "BuySell": "BUY",
+            "Quantity": "1",
+            "date": "2024-08-01",
+            "plan": "PLAN12345"
+        },
+        {
+            "StockSymbol": "HDFCBANK-EQ",
+            "BuySell": "BUY",
+            "Quantity": "1",
+            "date": "2024-08-01",
+            "plan": "PLAN12345"
+        },
+        {
+            "StockSymbol": "HDFCBANK-EQ",
+            "BuySell": "BUY",
+            "Quantity": "1",
+            "date": "2024-08-01",
+            "plan": "PLAN12345"
+        }
+    ],
+    "communication": [
+        {
+            "email": "archana@gmail.com",
+            "sendTime": "15:26",
+            "sendDate": "23-08-2024",
+            "deliveredTime": "15:26",
+            "deliveredDate": "23-08-2024"
+        },
+        {
+            "whatsup": "1234567890",
+            "sendTime": "15:26",
+            "sendDate": "23-08-2024",
+            "deliveredTime": "15:26",
+            "deliveredDate": "23-08-2024"
+        }
+    ],
+    "confirmation": {
+        "confirmedEmail": "archana@gmail.com",
+        "confirmedWhatsapp": "1234567890"
+    },
+    "existingPaymentStatus": {
+        "existingOrderPlacedTime": "15:26",
+        "existingOrderPlacedDate": "23-08-2024",
+        "reason": ""
+    },
+    "paymentOrderStatus": {
+        "orderPlacedTime": "15:26",
+        "orderPlacedDate": "23-08-2024",
+        "reason": ""
+    }
+}
