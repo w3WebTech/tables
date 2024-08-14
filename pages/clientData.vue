@@ -22,8 +22,8 @@
             class="d-flex justify-end justify-space-evenly align-end"
           >
             <v-btn
-              class="bg-logcolor"
-              @click="exportDataToCsv"
+              class="bg-green-500 ml-2"
+              @click="openDialog"
               >+</v-btn
             >
           </VCol>
@@ -65,6 +65,51 @@
             </VCol>
           </VRow>
         </div>
+        <v-dialog
+          v-model="dialog"
+          max-width="600px"
+        >
+          <v-card>
+            <v-card-title>
+              <span class="headline">Add New CLIENT</span>
+            </v-card-title>
+            <v-card-subtitle>
+              <v-form>
+                <v-text-field
+                  v-model="newItem.dessert"
+                  label="Client Code"
+                  required
+                  class="py-4"
+                ></v-text-field>
+                <v-text-field
+                  v-model="newItem.calories"
+                  label="Branch Code"
+                  required
+                  class="py-4"
+                ></v-text-field>
+                <v-text-field
+                  v-model="newItem.fat"
+                  label="Branch Email"
+                  required
+                  class="py-4"
+                ></v-text-field>
+              </v-form>
+            </v-card-subtitle>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                @click="addItem"
+                color="primary"
+                >ADD</v-btn
+              >
+              <v-btn
+                @click="closeDialog"
+                color="secondary"
+                >CANCEL</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </div>
     </VContainer>
   </div>
@@ -73,7 +118,28 @@
 <script setup>
 import { computed, ref } from 'vue'
 import axios from 'axios'
+const dialog = ref(false)
+const newItem = ref({
+  dessert: '',
+  calories: '',
+  fat: '',
+})
+const addItem = () => {
+  if (newItem.value.dessert && newItem.value.calories && newItem.value.fat) {
+    desserts.value.push({ ...newItem.value })
+    newItem.value = { dessert: '', calories: '', fat: '' } // Reset form
+    closeDialog()
+  } else {
+    alert('Please fill out all fields.')
+  }
+}
+const openDialog = () => {
+  dialog.value = true
+}
 
+const closeDialog = () => {
+  dialog.value = false
+}
 // Data
 const search = ref('')
 const desserts = ref([
