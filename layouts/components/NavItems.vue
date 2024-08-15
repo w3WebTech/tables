@@ -17,23 +17,20 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
     :item="{
       title: 'Progress',
       icon: 'ri-table-alt-line',
-      to: '/tables',
+      to: '/tableData',
     }"
   />
-  <VerticalNavGroup
-    :item="{
-      title: 'Manage Client',
 
-      icon: 'ri-home-smile-line',
+  <VerticalNavLink
+    :item="{
+      title: 'Add Client',
+      icon: 'ri-archive-drawer-line',
+      to: '/clientData',
     }"
-  >
-    <VerticalNavLink
-      :item="{
-        title: 'Add Client',
-        to: '/clientData',
-      }"
-    />
-  </VerticalNavGroup>
+  />
 </template>
+
+
+
 
 

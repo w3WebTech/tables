@@ -1,167 +1,165 @@
-
-
-
 <template>
-  <div>
-    <VContainer class="w-100 h-600">
-      <div :class="`${sheet == true ? 'overflow-hidden' : 'overflow-auto'}`">
-        <VRow no-gutters>
-          <VCol
-            cols="3"
-            class="d-flex justify-center align-end"
-          >
-            <DateRangePicker @selecteddate="selectdate" />
-          </VCol>
-          <VCol
-            cols="5"
-            class="d-flex justify-center align-end"
-          >
-            <input
-              v-model="search"
-              placeholder="Search..."
-              class="mt-1 block w-full px-3 mx-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
-            />
-          </VCol>
-          <VCol
-            cols="4"
-            class="d-flex justify-end justify-space-evenly align-end"
-          >
-            <div class="hide_menu mt-5">
-              <div>
-                <v-btn
-                  @click="toggleDropdown"
-                  class="w-150 bg-logcolor mt-2"
-                >
-                  Hide/Show Column
-                </v-btn>
-              </div>
-              <!-- <div class="demo-space-x pb-4">
+  <VContainer class="w-100 h-600">
+    <div>
+      <VRow no-gutters>
+        <VCol
+          cols="2"
+          class="d-flex justify-center align-end"
+        >
+          <DateRangePicker @selecteddate="selectdate" />
+        </VCol>
+        <VCol
+          cols="5"
+          class="d-flex justify-center align-end"
+        >
+          <input
+            v-model="search"
+            placeholder="Search..."
+            class="mt-1 block w-full px-3 mx-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+          />
+        </VCol>
+        <VCol
+          cols="3"
+          class="d-flex justify-end justify-space-evenly align-end mx-2"
+        >
+          <div class="hide_menu mt-5 mr-3">
+            <div>
+              <v-btn
+                @click="toggleDropdown"
+                class="w-150 bg-logcolor mt-2"
+              >
+                Hide/Show Column
+              </v-btn>
+            </div>
+            <!-- <div class="demo-space-x pb-4">
               <VSwitch v-model="isOpen" />
             </div> -->
-              <div
-                v-if="isOpen"
-                class="dr w-500 p-2 origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-              >
-                <div class="drop-menu my-2">
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <div class="demo-space-x">
-                      <VSwitch v-model="columnVisibility.clientId" />
-                    </div>
+            <div
+              v-if="isOpen"
+              class="dr w-500 p-2 origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+            >
+              <div class="drop-menu my-2">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.clientId" />
+                  </div>
 
-                    <span class="text-xs font-medium text-gray-900">ClientCode</span>
-                  </label>
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <div class="demo-space-x">
-                      <VSwitch v-model="columnVisibility.stockSymbol" />
-                    </div>
+                  <span class="text-xs font-medium text-gray-900">ClientCode</span>
+                </label>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.stockSymbol" />
+                  </div>
 
-                    <span class="text-xs font-medium text-gray-900">StockSymbol</span>
-                  </label>
+                  <span class="text-xs font-medium text-gray-900">StockSymbol</span>
+                </label>
 
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <div class="demo-space-x">
-                      <VSwitch v-model="columnVisibility.buySellType" />
-                    </div>
-                    <span class="text-xs font-medium text-gray-900">Buy/SellType</span>
-                  </label>
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <VSwitch v-model="columnVisibility.quantity" />
-                    <input
-                      class="cols whitespace-nowrap"
-                      type="checkbox"
-                      id="status"
-                    />
-                    <span class="text-xs font-medium text-gray-900">Quantity</span>
-                  </label>
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <div class="demo-space-x">
-                      <VSwitch v-model="columnVisibility.date" />
-                    </div>
-                    <span class="text-xs font-medium text-gray-900">Date</span>
-                  </label>
-                  <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <div class="demo-space-x">
-                      <VSwitch v-model="columnVisibility.plan" />
-                    </div>
-                    <span class="text-xs font-medium text-gray-900">Plan</span>
-                  </label>
-                  <label class="relative inline-flex items-center cursor-pointer">
-                    <div class="demo-space-x">
-                      <VSwitch v-model="columnVisibility.view_user" />
-                    </div>
-                    <span class="text-xs font-medium text-gray-900">ViewUser</span>
-                  </label>
-                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.buySellType" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">Buy/SellType</span>
+                </label>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <VSwitch v-model="columnVisibility.quantity" />
+                  <input
+                    class="cols whitespace-nowrap"
+                    type="checkbox"
+                    id="status"
+                  />
+                  <span class="text-xs font-medium text-gray-900">Quantity</span>
+                </label>
+                <br />
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.date" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">Date</span>
+                </label>
+                <br />
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.plan" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">Plan</span>
+                </label>
+                <br />
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.view_user" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">ViewUser</span>
+                </label>
               </div>
             </div>
+          </div>
 
-            <v-btn
-              class="bg-logcolor"
-              @click="exportDataToCsv"
-              >Export CSV</v-btn
+          <v-btn
+            class="bg-logcolor"
+            @click="exportDataToCsv"
+            >Export CSV</v-btn
+          >
+        </VCol>
+      </VRow>
+
+      <div v-if="pending">Loading...</div>
+      <div v-else>
+        <!-- Display data table -->
+        <VRow>
+          <VCol cols="12 my-4">
+            <v-data-table
+              :headers="tableHeaders"
+              :items="filteredDesserts"
+              item-key="clientId"
             >
+              <template v-slot:item="{ item }">
+                <tr class="">
+                  <td v-if="columnVisibility.clientId">
+                    <p class="mt-4">{{ item.orderData.ClientId }}</p>
+                  </td>
+                  <td v-if="columnVisibility.stockSymbol">
+                    <p class="mt-4">{{ item.orderData.StockSymbol }}</p>
+                  </td>
+                  <td v-if="columnVisibility.buySellType">
+                    <p class="mt-4">{{ item.orderData.BuySell }}</p>
+                  </td>
+                  <td v-if="columnVisibility.quantity">
+                    <p class="mt-4">{{ item.orderData.Quantity }}</p>
+                  </td>
+                  <td v-if="columnVisibility.date">
+                    <p class="mt-4">{{ item.orderData.date }}</p>
+                  </td>
+                  <td v-if="columnVisibility.plan">
+                    <p class="mt-4">{{ item.orderData.plan }}</p>
+                  </td>
+                  <td v-if="columnVisibility.view_user">
+                    <v-btn
+                      class="bg-logcolor w-10"
+                      @click="isDrawerOpen = true"
+                    >
+                      <VIcon
+                        icon="ri-information-line"
+                        color="white"
+                        size="22"
+                      />
+                    </v-btn>
+                  </td>
+                </tr>
+              </template>
+            </v-data-table>
           </VCol>
         </VRow>
-
-        <div v-if="pending">Loading...</div>
-        <div v-else>
-          <!-- Display data table -->
-          <VRow>
-            <VCol cols="12 my-4">
-              <v-data-table
-                :headers="tableHeaders"
-                :items="filteredDesserts"
-                item-key="clientId"
-              >
-                <template v-slot:item="{ item }">
-                  <tr class="">
-                    <td v-if="columnVisibility.clientId">
-                      <p class="mt-4">{{ item.orderData.ClientId }}</p>
-                    </td>
-                    <td v-if="columnVisibility.stockSymbol">
-                      <p class="mt-4">{{ item.orderData.StockSymbol }}</p>
-                    </td>
-                    <td v-if="columnVisibility.buySellType">
-                      <p class="mt-4">{{ item.orderData.BuySell }}</p>
-                    </td>
-                    <td v-if="columnVisibility.quantity">
-                      <p class="mt-4">{{ item.orderData.Quantity }}</p>
-                    </td>
-                    <td v-if="columnVisibility.date">
-                      <p class="mt-4">{{ item.orderData.date }}</p>
-                    </td>
-                    <td v-if="columnVisibility.plan">
-                      <p class="mt-4">{{ item.orderData.plan }}</p>
-                    </td>
-                    <td v-if="columnVisibility.view_user">
-                      <v-btn
-                        class="bg-logcolor"
-                        @click="canvasheet(item)"
-                        >View</v-btn
-                      >
-                    </td>
-                  </tr>
-                </template>
-              </v-data-table>
-            </VCol>
-          </VRow>
-        </div>
       </div>
-      <div
-        :class="['right-sheet', { 'right-sheet--active': sheet }]"
-        class="pa-2"
+
+      <VNavigationDrawer
+        v-model="isDrawerOpen"
+        right
+        temporary
+        v-if="isDrawerOpen == true"
       >
         <VCard>
-          <v-card-text class="d-flex justify-end align-center mt-6">
-            <v-btn
-              class="bg-logcolor"
-              @click="canva_close"
-              >X</v-btn
-            >
-          </v-card-text>
           <div class="container mx-auto p-4">
-            <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="bg-white p-6">
               <div class="flex justify-between items-center mb-4">
                 <div>
                   <p class="text-gray-600 text-sm">Name: Ramanathan V</p>
@@ -233,7 +231,7 @@
             </VWindowItem>
             <VWindowItem class="h-screen">
               <div class="container mx-auto p-4">
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white p-6">
                   <div class="mb-4">
                     <p class="text-gray-600 text-sm">Power Stocks to Email:</p>
                   </div>
@@ -264,7 +262,7 @@
             </VWindowItem>
             <VWindowItem class="h-screen">
               <div class="container mx-auto p-4">
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white p-6">
                   <div class="mb-4">
                     <p class="text-gray-600 text-sm">Confirmed by Customer mail id at 23-08-2024at 15:22:22</p>
                   </div>
@@ -276,7 +274,7 @@
             </VWindowItem>
             <VWindowItem class="h-screen">
               <div class="container mx-auto p-4">
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white p-6">
                   <div class="mb-4">
                     <p class="text-gray-600 text-sm">Existing Order Placed at 23-08-2024at 15:22:22</p>
                   </div>
@@ -288,7 +286,7 @@
             </VWindowItem>
             <VWindowItem class="h-screen">
               <div class="container mx-auto p-4">
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white p-6">
                   <div class="mb-4">
                     <p class="text-gray-600 text-sm">Order Placed at 23-08-2024at 15:22:22</p>
                   </div>
@@ -300,16 +298,58 @@
             </VWindowItem>
           </VWindow>
         </VCard>
-      </div>
-    </VContainer>
-  </div>
+      </VNavigationDrawer>
+    </div>
+  </VContainer>
 </template>
+<style lang="scss" scoped>
+.v-btn {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+.text-black {
+  color: black;
+}
+
+.text-gray {
+  color: gray;
+}
+
+.v-navigation-drawer {
+  /* Set the default position */
+  right: 0 !important;
+  left: auto !important;
+  position: fixed !important;
+  /* Optional: adjust width as needed */
+  width: 60% !important;
+  transition: transform 2s ease-in-out;
+  transform: translateX(100%);
+}
+.v-navigation-drawer.v-navigation-drawer--open {
+  /* When the drawer is open, move it to the left */
+  transform: translateX(0);
+}
+
+.hide_menu {
+  position: relative;
+}
+
+.hide_menu .dr {
+  position: absolute;
+  z-index: 10;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>
 
 <script setup>
 import { computed, ref } from 'vue'
 import axios from 'axios'
-const currentTab = ref(0)
 
+const currentTab = ref(0)
+console.log(currentTab.value, 'currentT')
 const search = ref('')
 const headers = [
   { key: 'clientId', title: 'Client Code' },
@@ -420,21 +460,8 @@ const desserts = [
     carbs: 'PLAN12',
   },
 ]
-const sheet = ref(false)
+
 const selectedItem = ref(null)
-
-const canvasheet = item => {
-  selectedItem.value = item
-  console.log(selectedItem.value, 'selectedItem.value')
-  sheet.value = true
-}
-
-const canva_close = () => {
-  console.log('canva_close method called')
-  console.log('Current sheet value:', sheet.value)
-  selectedItem.value = null
-  sheet.value = false
-}
 
 const exportDataToCsv = () => {
   if (!productdetails.value.length) {
@@ -463,6 +490,7 @@ const exportDataToCsv = () => {
   document.body.removeChild(link)
 }
 
+const isDrawerOpen = ref(false)
 const isOpen = ref(false)
 const columnVisibility = ref({
   clientId: true,
@@ -495,44 +523,4 @@ const tableHeaders = headers.map(header => ({
 }))
 </script>
 
-<style scoped>
-.text-black {
-  color: black;
-}
 
-.text-gray {
-  color: gray;
-}
-
-.right-sheet {
-  position: fixed;
-  z-index: 1000;
-  background-color: white !important;
-  block-size: 100%;
-  inline-size: 60%;
-  inset-block-start: 0;
-  inset-inline-end: -100%;
-  transition: inset-inline-end 0.3s ease;
-  overflow-y: auto;
-}
-.sheetopen {
-  overflow-y: hidden;
-}
-
-.right-sheet--active {
-  inset-inline-end: 0;
-}
-
-.hide_menu {
-  position: relative;
-}
-
-.hide_menu .dr {
-  position: absolute;
-  z-index: 10;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-</style>

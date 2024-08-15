@@ -22,10 +22,14 @@
             class="d-flex justify-end justify-space-evenly align-end"
           >
             <v-btn
-              class="bg-green-500 ml-2"
-              @click="openDialog"
-              >+</v-btn
+              class="ml-2"
+              @click="isDrawerOpen = true"
             >
+              <VIcon
+                icon="ri-user-add-fill"
+                color="red"
+                size="22"
+            /></v-btn>
           </VCol>
         </VRow>
 
@@ -42,7 +46,6 @@
                     <th class="text-uppercase">Action</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   <tr
                     v-for="item in filteredDesserts"
@@ -54,10 +57,13 @@
                     <td>
                       <v-btn
                         @click="deleteItem(item)"
-                        class="ml-2 bg-red-500"
+                        class="ml-2"
                       >
-                        DELETE
-                      </v-btn>
+                        <VIcon
+                          icon="ri-delete-bin-fill"
+                          color="red"
+                          size="22"
+                      /></v-btn>
                     </td>
                   </tr>
                 </tbody>
@@ -65,51 +71,69 @@
             </VCol>
           </VRow>
         </div>
-        <v-dialog
-          v-model="dialog"
-          max-width="600px"
+
+        <VNavigationDrawer
+          v-model="isDrawerOpen"
+          temporary
+          right
+          v-if="isDrawerOpen == true"
         >
-          <v-card>
-            <v-card-title>
-              <span class="headline">Add New CLIENT</span>
-            </v-card-title>
-            <v-card-subtitle>
+          <VCard class="h-screen">
+            <VCardTitle class="py-8"> ADD NEW CLIENT </VCardTitle>
+            <VCardSubtitle>
               <v-form>
                 <v-text-field
                   v-model="newItem.dessert"
-                  label="Client Code"
+                  label="Client Code *"
                   required
-                  class="py-4"
+                  class="py-2"
+                ></v-text-field>
+                <v-text-field
+                  label="Client Email"
+                  required
+                  class="py-2"
+                ></v-text-field>
+                <v-text-field
+                  label="Client Mobile No"
+                  required
+                  class="py-2"
                 ></v-text-field>
                 <v-text-field
                   v-model="newItem.calories"
-                  label="Branch Code"
                   required
-                  class="py-4"
+                  label="Branch Code"
+                  class="py-2"
                 ></v-text-field>
                 <v-text-field
                   v-model="newItem.fat"
                   label="Branch Email"
                   required
-                  class="py-4"
+                  class="py-2"
+                ></v-text-field>
+                <v-text-field
+                  label="Branch Mobile No"
+                  required
+                  class="py-2"
                 ></v-text-field>
               </v-form>
-            </v-card-subtitle>
-            <v-card-actions>
+            </VCardSubtitle>
+            <VCardActions class="py-8">
               <v-spacer></v-spacer>
+
               <v-btn
                 @click="addItem"
-                color="primary"
+                class="ml-2 text-white"
+                style="background-color: #2b58a3; border: 1px solid #2b58a3; color: rgb(252, 249, 249)"
                 >ADD</v-btn
               >
               <v-btn
-                @click="closeDialog"
-                color="secondary"
+                @click="isDrawerOpen = false"
+                color="secondary border mr-3"
                 >CANCEL</v-btn
               >
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+            </VCardActions>
+          </VCard>
+        </VNavigationDrawer>
       </div>
     </VContainer>
   </div>
@@ -117,29 +141,24 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import axios from 'axios'
-const dialog = ref(false)
+
+const isDrawerOpen = ref(false) // Initially closed
 const newItem = ref({
   dessert: '',
   calories: '',
   fat: '',
 })
+
 const addItem = () => {
-  if (newItem.value.dessert && newItem.value.calories && newItem.value.fat) {
+  if (newItem.value.dessert) {
     desserts.value.push({ ...newItem.value })
     newItem.value = { dessert: '', calories: '', fat: '' } // Reset form
-    closeDialog()
+    isDrawerOpen.value = false // Close the drawer
   } else {
     alert('Please fill out all fields.')
   }
 }
-const openDialog = () => {
-  dialog.value = true
-}
 
-const closeDialog = () => {
-  dialog.value = false
-}
 // Data
 const search = ref('')
 const desserts = ref([
@@ -149,7 +168,6 @@ const desserts = ref([
   { dessert: 'GD3333', calories: 'CHENNAI', fat: 'ADMIN@GWC.IN' },
   { dessert: 'GD9999', calories: 'TRICHY', fat: 'ADMIN@GWC.IN' },
   { dessert: 'GDY66Y', calories: 'COVAI', fat: 'ADMIN@GWC.IN' },
-  // Add other items as needed
 ])
 
 // Computed property to filter the desserts array based on the search query
@@ -184,27 +202,20 @@ const exportDataToCsv = () => {
 .text-gray {
   color: gray;
 }
-
-.right-sheet {
-  position: fixed;
-  z-index: 1000;
-  background-color: white !important;
-  block-size: 100%;
-  inline-size: 60%;
-  inset-block-start: 0;
-  inset-inline-end: -100%;
-  transition: inset-inline-end 0.3s ease;
-  overflow-y: auto;
+.v-navigation-drawer {
+  /* Set the default position */
+  right: 0 !important;
+  left: auto !important;
+  position: fixed !important;
+  /* Optional: adjust width as needed */
+  width: 30% !important;
+  transition: transform 2s ease-in-out;
+  transform: translateX(100%);
 }
-
-.sheetopen {
-  overflow-y: hidden;
+.v-navigation-drawer.v-navigation-drawer--open {
+  /* When the drawer is open, move it to the left */
+  transform: translateX(0);
 }
-
-.right-sheet--active {
-  inset-inline-end: 0;
-}
-
 .hide_menu {
   position: relative;
 }
@@ -213,7 +224,11 @@ const exportDataToCsv = () => {
   position: absolute;
   z-index: 10;
 }
-
+.custom-add-button {
+  background-color: #2b58a3;
+  border: 1px solid #2b58a3;
+  color: rgb(252, 249, 249);
+}
 .cursor-pointer {
   cursor: pointer;
 }
