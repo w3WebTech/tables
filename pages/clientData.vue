@@ -83,34 +83,37 @@
             <VCardSubtitle>
               <v-form>
                 <v-text-field
-                  v-model="newItem.dessert"
+                  v-model="createClient.ClientCode"
                   label="Client Code *"
                   required
                   class="py-2"
                 ></v-text-field>
                 <v-text-field
+                  v-model="createClient.ClientEmailId"
                   label="Client Email"
                   required
                   class="py-2"
                 ></v-text-field>
                 <v-text-field
+                  v-model="createClient.ClientMobileno"
                   label="Client Mobile No"
                   required
                   class="py-2"
                 ></v-text-field>
                 <v-text-field
-                  v-model="newItem.calories"
+                  v-model="createClient.BranchCode"
                   required
                   label="Branch Code"
                   class="py-2"
                 ></v-text-field>
                 <v-text-field
-                  v-model="newItem.fat"
+                  v-model="createClient.BranchEmail"
                   label="Branch Email"
                   required
                   class="py-2"
                 ></v-text-field>
                 <v-text-field
+                  v-model="createClient.BranchMobile"
                   label="Branch Mobile No"
                   required
                   class="py-2"
@@ -141,18 +144,37 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import axios from 'axios'
 
 const isDrawerOpen = ref(false) // Initially closed
-const newItem = ref({
-  dessert: '',
-  calories: '',
-  fat: '',
+const createClient = ref({
+  ClientCode: '',
+  ClientEmailId: '',
+  ClientMobileno: '',
+  BranchCode: '',
+  BranchEmail: '',
+  BranchMobile: '',
 })
 
-const addItem = () => {
-  if (newItem.value.dessert) {
-    desserts.value.push({ ...newItem.value })
-    newItem.value = { dessert: '', calories: '', fat: '' } // Reset form
+const addItem = async () => {
+  if (createClient.value.ClientCode) {
+    const formData = new FormData()
+    formData.append('ClientCode', createClient.value.ClientCode)
+    formData.append('ClientEmailId', createClient.value.ClientEmailId)
+    formData.append('ClientMobileno', createClient.value.ClientMobileno)
+    formData.append('BranchCode', createClient.value.BranchCode)
+    formData.append('BranchEmail', createClient.value.BranchEmail)
+    formData.append('BranchMobile', createClient.value.BranchMobile)
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-client-entry.php', formData)
+
+    createClient.value = {
+      ClientCode: '',
+      ClientEmailId: '',
+      ClientMobileno: '',
+      BranchCode: '',
+      BranchEmail: '',
+      BranchMobile: '',
+    } // Reset form
     isDrawerOpen.value = false // Close the drawer
   } else {
     alert('Please fill out all fields.')
