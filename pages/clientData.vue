@@ -47,13 +47,52 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <tr v-if="isLoading">
+                    <td>
+                      <div class="animate-pulse">
+                        <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="animate-pulse">
+                        <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="animate-pulse">
+                        <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="animate-pulse">
+                        <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                      </div>
+                    </td>
+                  </tr>
                   <tr
                     v-for="item in filteredDesserts"
                     :key="item.dessert"
+                    v-else
                   >
-                    <td>{{ item.dessert }}</td>
-                    <td>{{ item.calories }}</td>
-                    <td>{{ item.fat }}</td>
+                    <td>{{ item.clientCode }}</td>
+                    <td>{{ item.branchCode }}</td>
+                    <td>{{ item.branchEmail }}</td>
                     <td>
                       <v-btn
                         @click="deleteItem(item)"
@@ -145,7 +184,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import axios from 'axios'
-
+const isLoading = ref(false)
 const isDrawerOpen = ref(false) // Initially closed
 const createClient = ref({
   ClientCode: '',
@@ -175,40 +214,73 @@ const addItem = async () => {
       BranchEmail: '',
       BranchMobile: '',
     } // Reset form
-    isDrawerOpen.value = false // Close the drawer
+    isDrawerOpen.value = false
+    fetchData() // Close the drawer
   } else {
     alert('Please fill out all fields.')
   }
 }
+const fetchData = async () => {
+  isLoading.value = true
+  try {
+    const formData = new FormData()
+    formData.append('authKey', '0a7cb27e52927eacabbb7ecc738b0fea50b3967945257c43a67eb753cb465bd0')
 
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-client-data.php', formData)
+
+    // Debug after successful response
+    console.log(response.data, 'response.data') // Ensure this logs the expected data structure
+
+    desserts.value = response.data.map(item => ({
+      clientCode: item.clientCode,
+      branchCode: item.branchCode,
+      branchEmail: item.branchEmail,
+    }))
+  } catch (err) {
+    console.error('Error:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 // Data
 const search = ref('')
-const desserts = ref([
-  { dessert: 'GD1234', calories: 'ANNANAGAR', fat: 'ADMIN@GWC.IN' },
-  { dessert: 'GD1234', calories: 'THANJAVUR', fat: 'ADMIN@GWC.IN' },
-  { dessert: 'GD0000', calories: 'THENI', fat: 'ADMIN@GWC.IN' },
-  { dessert: 'GD3333', calories: 'CHENNAI', fat: 'ADMIN@GWC.IN' },
-  { dessert: 'GD9999', calories: 'TRICHY', fat: 'ADMIN@GWC.IN' },
-  { dessert: 'GDY66Y', calories: 'COVAI', fat: 'ADMIN@GWC.IN' },
-])
+const desserts = ref([])
 
 // Computed property to filter the desserts array based on the search query
 const filteredDesserts = computed(() => {
   if (!search.value) {
     return desserts.value
   }
+  console.log(desserts.value, 'desserts.value')
   const query = search.value.toLowerCase()
   return desserts.value.filter(
     item =>
-      item.dessert.toLowerCase().includes(query) ||
-      item.calories.toLowerCase().includes(query) ||
-      item.fat.toLowerCase().includes(query),
+      item.clientCode.toLowerCase().includes(query) ||
+      item.branchCode.toLowerCase().includes(query) ||
+      item.branchEmail.toLowerCase().includes(query),
   )
 })
 
 // Methods
 const deleteItem = itemToDelete => {
-  desserts.value = desserts.value.filter(item => item !== itemToDelete)
+  try {
+    const formData = new FormData()
+    formData.append('authKey', '0a7cb27e52927eacabbb7ecc738b0fea50b3967945257c43a67eb753cb465bd0')
+    formData.append('clientCode', itemToDelete.clientCode)
+    const response = axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-remove-client.php', formData)
+
+    console.log('Client deleted successfully:', response.data)
+  } catch (error) {
+    // Handle errors (e.g., show an error message)
+    console.error('Error deleting client:', error)
+  } finally {
+    search.value = ''
+    fetchData()
+  }
 }
 
 const exportDataToCsv = () => {
