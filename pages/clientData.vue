@@ -184,6 +184,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 const isLoading = ref(false)
 const isDrawerOpen = ref(false) // Initially closed
 const createClient = ref({
@@ -215,8 +216,18 @@ const addItem = async () => {
       BranchMobile: '',
     } // Reset form
     isDrawerOpen.value = false
+    Swal.fire({
+      icon: 'success',
+      title: 'Client Added',
+      text: 'The client has been added successfully!',
+    })
     fetchData() // Close the drawer
   } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong while creating the client. Please try again.',
+    })
     alert('Please fill out all fields.')
   }
 }
@@ -274,9 +285,19 @@ const deleteItem = itemToDelete => {
     const response = axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-remove-client.php', formData)
 
     console.log('Client deleted successfully:', response.data)
+    Swal.fire({
+      icon: 'success',
+      title: 'Client Deleted',
+      text: 'The client has been deleted successfully!',
+    })
   } catch (error) {
     // Handle errors (e.g., show an error message)
     console.error('Error deleting client:', error)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong while deleting the client. Please try again.',
+    })
   } finally {
     search.value = ''
     fetchData()
