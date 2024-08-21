@@ -28,6 +28,14 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       to: '/clientData',
     }"
   />
+
+  <VerticalNavLink
+    :item="{
+      title: 'table',
+      icon: 'ri-archive-drawer-line',
+      to: '/emptyColumn',
+    }"
+  />
 </template>
 
 
