@@ -31,9 +31,17 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 
   <VerticalNavLink
     :item="{
-      title: 'table',
-      icon: 'ri-archive-drawer-line',
-      to: '/emptyColumn',
+      title: 'Whatsapp Log',
+      icon: 'ri-whatsapp-line',
+      to: '/whatsappTable',
+    }"
+  />
+
+  <VerticalNavLink
+    :item="{
+      title: 'Email Log',
+      icon: 'ri-mail-open-line',
+      to: '/emailTable',
     }"
   />
 </template>

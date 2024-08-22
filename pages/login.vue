@@ -1,33 +1,4 @@
-<script setup lang="ts">
-import { useTheme } from 'vuetify'
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
-
-import logo from '@images/logo.svg?raw'
-import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
-import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
-import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
-import authV1Tree from '@images/pages/auth-v1-tree.png'
-
-const form = ref({
-  email: '',
-  password: '',
-  remember: false,
-})
-
-const vuetifyTheme = useTheme()
-
-const authThemeMask = computed(() => {
-  return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
-})
-
-const isPasswordVisible = ref(false)
-
-definePageMeta({ layout: 'blank' })
-</script>
-
 <template>
-  <!-- eslint-disable vue/no-v-html -->
-
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VCard
       class="auth-card pa-4 pt-7"
@@ -36,15 +7,18 @@ definePageMeta({ layout: 'blank' })
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <div v-html="logo" />
+            <v-img
+              :width="207"
+              aspect-ratio="16/9"
+              cover
+              src="https://powerstocks.gwcindia.in/Img/Power%20Stocks%20Logo%20Final%20Feb%202024%201.jpg"
+            ></v-img>
           </div>
         </template>
-
-        <VCardTitle class="font-weight-semibold text-2xl text-uppercase"> Materio </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">Welcome to Materio! 👋🏻</h5>
+        <h5 class="text-h5 font-weight-semibold mb-1">Welcome to Powerstocks! 👋🏻</h5>
         <p class="mb-0">Please sign-in to your account and start the adventure</p>
       </VCardText>
 
@@ -78,26 +52,27 @@ definePageMeta({ layout: 'blank' })
                   label="Remember me"
                 />
 
-                <a
+                <!-- <a
                   class="ms-2 mb-1"
                   href="javascript:void(0)"
                 >
                   Forgot Password?
-                </a>
+                </a> -->
               </div>
 
               <!-- login button -->
               <VBtn
                 block
                 type="submit"
-                to="/"
+                :disabled="!isValidForm"
+                @click="handleLogin"
               >
                 Login
               </VBtn>
             </VCol>
 
             <!-- create account -->
-            <VCol
+            <!-- <VCol
               cols="12"
               class="text-center text-base"
             >
@@ -108,23 +83,23 @@ definePageMeta({ layout: 'blank' })
               >
                 Create an account
               </NuxtLink>
-            </VCol>
+            </VCol> -->
 
-            <VCol
+            <!-- <VCol
               cols="12"
               class="d-flex align-center"
             >
               <VDivider />
               <span class="mx-4">or</span>
               <VDivider />
-            </VCol>
+            </VCol> -->
 
             <!-- auth providers -->
             <VCol
               cols="12"
               class="text-center"
             >
-              <AuthProvider />
+              <!-- <AuthProvider /> -->
             </VCol>
           </VRow>
         </VForm>
@@ -132,25 +107,83 @@ definePageMeta({ layout: 'blank' })
     </VCard>
 
     <VImg
-      class="auth-footer-start-tree d-none d-md-block"
+      class="auth-footer-mask d-none d-md-block"
+      :src="authThemeMask"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover"
+    />
+    <VImg
+      class="auth-footer-start-tree"
       :src="authV1Tree"
       :width="250"
+      style="position: absolute; top: 50%; left: 0; transform: translateY(-50%)"
     />
 
     <VImg
       :src="authV1Tree2"
-      class="auth-footer-end-tree d-none d-md-block"
+      class="auth-footer-end-tree"
       :width="350"
-    />
-
-    <!-- bg img -->
-    <VImg
-      class="auth-footer-mask d-none d-md-block"
-      :src="authThemeMask"
+      style="position: absolute; top: 50%; right: 0; transform: translateY(-50%)"
     />
   </div>
 </template>
-
-<style lang="scss">
+<style lang="scss" scoped>
 @use '@core/scss/pages/page-auth.scss';
 </style>
+<script setup lang="ts">
+import { useTheme } from 'vuetify'
+import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+import logo from '@images/logo.svg?raw'
+import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
+import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
+import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
+import authV1Tree from '@images/pages/auth-v1-tree.png'
+
+const router = useRouter()
+const allowedIps = ['192.168.1.100', '157.49.96.161', '157.49.97.221']
+
+const isValidEmail = (email: string) => {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return emailRegex.test(email)
+}
+
+const isValidPassword = (password: string) => {
+  return password.length === 6
+}
+
+const isValidForm = computed(() => {
+  return isValidEmail(form.value.email) && isValidPassword(form.value.password)
+})
+
+const handleLogin = async () => {
+  debugger
+  const response = await axios.get('https://api.ipify.org?format=json')
+  console.log(response.data.ip, response.data, 'response.data.ip')
+  const clientIp = response.data.ip
+  if (allowedIps.includes(clientIp)) {
+    if (isValidForm.value) {
+      // Route to datatable page
+      router.push('/tableData')
+    }
+  } else {
+    alert('Access denied. Your IP address is not allowed.')
+  }
+}
+
+const form = ref({
+  email: '',
+  password: '',
+  remember: false,
+})
+
+const vuetifyTheme = useTheme()
+
+const authThemeMask = computed(() => {
+  return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
+})
+
+const isPasswordVisible = ref(false)
+
+definePageMeta({ layout: 'blank' })
+</script>

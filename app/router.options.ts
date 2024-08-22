@@ -7,7 +7,14 @@ export default <RouterConfig> {
     {
       path: '/',
       name: 'index',
+      redirect: '/login',
+    },
+    {
+      path: '/tableData',
+      name: '',
       redirect: '/tableData',
     },
+ 
+
   ],
 }
