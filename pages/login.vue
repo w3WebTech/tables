@@ -141,7 +141,7 @@ import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
 
 const router = useRouter()
-const allowedIps = ['192.168.1.100', '157.49.96.161', '157.49.97.221']
+const allowedIps = ['157.49.96.161', '157.49.97.221', '223.185.25.251']
 
 const isValidEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
