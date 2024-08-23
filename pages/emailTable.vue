@@ -279,156 +279,11 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      desserts: [
-        {
-          clientCode: 'ABC123',
-          emailId: 'archana@gmail.com',
-          emailSubject: 'Welcome to Powerstocks',
-          emailMsgId: '1234567890',
-          emailStatus: 'Sent',
-          emailSentDateTime: '2023-03-08 10:00:00',
-          emailDeliveredDateTime: '2023-03-08 10:00:05',
-          emailOpenedDateTime: '2023-03-08 10:01:00',
-          emailBouncedDateTime: ' ',
-          clickedURL: 'https://www.powerstocks.com',
-          emailClickedDateTime: '2023-03-08 10:02:00',
-          PSkey: 'xyz123',
-          entryDate: '2023-03-08',
-          entryTime: '10:00:00',
-        },
-        {
-          clientCode: 'DEF456',
-          emailId: 'archu2@gmail.com',
-          emailSubject: 'Your Powerstocks account is ready',
-          emailMsgId: '9876543210',
-          emailStatus: 'Sent',
-          emailSentDateTime: '2023-03-08 11:00:00',
-          emailDeliveredDateTime: '2023-03-08 11:00:05',
-          emailOpenedDateTime: '2023-03-08 11:01:00',
-          emailBouncedDateTime: ' ',
-          clickedURL: 'https://www.powerstocks.com/account',
-          emailClickedDateTime: '2023-03-08 11:02:00',
-          PSkey: 'abc789',
-          entryDate: '2023-03-08',
-          entryTime: '11:00:00',
-        },
-        {
-          clientCode: 'GHI789',
-          emailId: 'arch2@gmail.com',
-          emailSubject: 'Powerstocks Update',
-          emailMsgId: '0123456789',
-          emailStatus: 'Bounced',
-          emailSentDateTime: '2023-03-08 12:00:00',
-          emailDeliveredDateTime: ' ',
-          emailOpenedDateTime: ' ',
-          emailBouncedDateTime: '2023-03-08 12:01:00',
-          clickedURL: ' ',
-          emailClickedDateTime: ' ',
-          PSkey: 'def012',
-          entryDate: '2023-03-08',
-          entryTime: '12:00:00',
-        },
-        {
-          clientCode: 'ABC123',
-          emailId: 'archana@gmail.com',
-          emailSubject: 'Welcome to Powerstocks',
-          emailMsgId: '1234567890',
-          emailStatus: 'Sent',
-          emailSentDateTime: '2023-03-08 10:00:00',
-          emailDeliveredDateTime: '2023-03-08 10:00:05',
-          emailOpenedDateTime: '2023-03-08 10:01:00',
-          emailBouncedDateTime: ' ',
-          clickedURL: 'https://www.powerstocks.com',
-          emailClickedDateTime: '2023-03-08 10:02:00',
-          PSkey: 'xyz123',
-          entryDate: '2023-03-08',
-          entryTime: '10:00:00',
-        },
-        {
-          clientCode: 'DEF456',
-          emailId: 'archu2@gmail.com',
-          emailSubject: 'Your Powerstocks account',
-          emailMsgId: '9876543210',
-          emailStatus: 'Sent',
-          emailSentDateTime: '2023-03-08 11:00:00',
-          emailDeliveredDateTime: '2023-03-08 11:00:05',
-          emailOpenedDateTime: '2023-03-08 11:01:00',
-          emailBouncedDateTime: ' ',
-          clickedURL: 'https://www.powerstocks.com/account',
-          emailClickedDateTime: '2023-03-08 11:02:00',
-          PSkey: 'abc789',
-          entryDate: '2023-03-08',
-          entryTime: '11:00:00',
-        },
-        {
-          clientCode: 'GHI789',
-          emailId: 'arch2@gmail.com',
-          emailSubject: 'Powerstocks Update',
-          emailMsgId: '0123456789',
-          emailStatus: 'Bounced',
-          emailSentDateTime: '2023-03-08 12:00:00',
-          emailDeliveredDateTime: ' ',
-          emailOpenedDateTime: ' ',
-          emailBouncedDateTime: '2023-03-08 12:01:00',
-          clickedURL: ' ',
-          emailClickedDateTime: ' ',
-          PSkey: 'def012',
-          entryDate: '2023-03-08',
-          entryTime: '12:00:00',
-        },
-        {
-          clientCode: 'ABC123',
-          emailId: 'archana@gmail.com',
-          emailSubject: 'Welcome to Powerstocks',
-          emailMsgId: '1234567890',
-          emailStatus: 'Sent',
-          emailSentDateTime: '2023-03-08 10:00:00',
-          emailDeliveredDateTime: '2023-03-08 10:00:05',
-          emailOpenedDateTime: '2023-03-08 10:01:00',
-          emailBouncedDateTime: ' ',
-          clickedURL: 'https://www.powerstocks.com',
-          emailClickedDateTime: '2023-03-08 10:02:00',
-          PSkey: 'xyz123',
-          entryDate: '2023-03-08',
-          entryTime: '10:00:00',
-        },
-        {
-          clientCode: 'DEF456',
-          emailId: 'archu2@gmail.com',
-          emailSubject: 'Powerstocks account is ready',
-          emailMsgId: '9876543210',
-          emailStatus: 'Sent',
-          emailSentDateTime: '2023-03-08 11:00:00',
-          emailDeliveredDateTime: '2023-03-08 11:00:05',
-          emailOpenedDateTime: '2023-03-08 11:01:00',
-          emailBouncedDateTime: ' ',
-          clickedURL: 'https://www.powerstocks.com/account',
-          emailClickedDateTime: '2023-03-08 11:02:00',
-          PSkey: 'abc789',
-          entryDate: '2023-03-08',
-          entryTime: '11:00:00',
-        },
-        {
-          clientCode: 'GHI789',
-          emailId: 'anbu@gmail.com',
-          emailSubject: 'Powerstocks Update',
-          emailMsgId: '0123456789',
-          emailStatus: 'Bounced',
-          emailSentDateTime: '2023-03-08 12:00:00',
-          emailDeliveredDateTime: ' ',
-          emailOpenedDateTime: ' ',
-          emailBouncedDateTime: '2023-03-08 12:01:00',
-          clickedURL: ' ',
-          emailClickedDateTime: ' ',
-          PSkey: 'def012',
-          entryDate: '2023-03-08',
-          entryTime: '12:00:00',
-        },
-      ],
-
+      desserts: [],
       filteredDesserts: [],
       search: '',
       isOpen: false,
@@ -448,9 +303,22 @@ export default {
         entryDate: true,
         entryTime: true,
       },
+      startDate: '',
+      ensDate: '',
     }
   },
   mounted() {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    this.startDate = `${yesterday.getFullYear()}-${('0' + (yesterday.getMonth() + 1)).slice(-2)}-${(
+      '0' + yesterday.getDate()
+    ).slice(-2)}`
+    const today = new Date()
+    this.endDate = `${today.getFullYear()}-${('0' + (today.getMonth() + 1)).slice(-2)}-${('0' + today.getDate()).slice(
+      -2,
+    )}`
+
+    this.fetchData()
     this.filteredDesserts = this.desserts
   },
   computed: {
@@ -486,9 +354,13 @@ export default {
     toggleDropdown() {
       this.isOpen = !this.isOpen
     },
-    selectdate(dates) {
-      // handle selected dates
-      console.log('selected dates:', dates)
+    selectdate([start, end]) {
+      debugger
+      this.startDate = start
+      this.endDate = end
+      console.log('Selected dates final;:', this.startDate, this.endDate)
+
+      this.fetchData()
     },
     exportDataToCsv() {
       if (!this.desserts.length) {
@@ -512,7 +384,7 @@ export default {
           'entryDate',
           'entryTime',
         ],
-        ...this.filteredDesserts.map(item => [
+        ...this.desserts.map(item => [
           item.clientCode,
           item.emailId,
           item.emailSubject,
@@ -538,6 +410,40 @@ export default {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+    },
+
+    watch: {
+      startDate: function () {
+        this.fetchData()
+      },
+      endDate: function () {
+        this.fetchData()
+      },
+    },
+
+    fetchData() {
+      try {
+        if (this.startDate && this.endDate) {
+          const formData = new FormData()
+          formData.append('from', this.startDate)
+          formData.append('to', this.endDate)
+          formData.append('logType', 'EMAIL')
+          formData.append('authKey', '198a3a05de29c9cc6682116efb2fcef84a5e1cd8b91c6bcbc75ca38177ca96b7')
+
+          axios
+            .post('https://g1.gwcindia.in/powerstocks/log-wa-email.php', formData)
+            .then(response => {
+              this.desserts = response.data.log // Update this.desserts with the response data
+              console.log(response.data, 'response.data', this.desserts) // Should print the correct data
+            })
+            .catch(error => {
+              console.error('Error:', error)
+            })
+        }
+      } catch (err) {
+        console.error('Error:', err)
+      } finally {
+      }
     },
   },
 }

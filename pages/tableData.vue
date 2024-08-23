@@ -41,13 +41,6 @@
               <div class="drop-menu my-2">
                 <label class="relative inline-flex items-center cursor-pointer">
                   <div class="demo-space-x">
-                    <VSwitch v-model="columnVisibility.clientId" />
-                  </div>
-
-                  <span class="text-xs font-medium text-gray-900">ClientCode</span>
-                </label>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <div class="demo-space-x">
                     <VSwitch v-model="columnVisibility.stockSymbol" />
                   </div>
 
@@ -110,27 +103,27 @@
             <v-data-table
               :headers="tableHeaders"
               :items="filteredDesserts"
-              item-key="clientId"
+              item-key="stockName"
             >
               <template v-slot:item="{ item }">
                 <tr class="">
-                  <td v-if="columnVisibility.clientId">
-                    <p class="mt-4">{{ item.orderData.ClientId }}</p>
-                  </td>
+                  <!-- <td v-if="columnVisibility.clientId">
+                    <p class="mt-4">{{ item.stockList.ClientId }}</p>
+                  </td> -->
                   <td v-if="columnVisibility.stockSymbol">
-                    <p class="mt-4">{{ item.orderData.StockSymbol }}</p>
+                    <p class="mt-4">{{ item.stockName }}</p>
                   </td>
                   <td v-if="columnVisibility.buySellType">
-                    <p class="mt-4">{{ item.orderData.BuySell }}</p>
+                    <p class="mt-4">{{ item.buySell }}</p>
                   </td>
                   <td v-if="columnVisibility.quantity">
-                    <p class="mt-4">{{ item.orderData.Quantity }}</p>
+                    <p class="mt-4">{{ item.quantity }}</p>
                   </td>
                   <td v-if="columnVisibility.date">
-                    <p class="mt-4">{{ item.orderData.date }}</p>
+                    <p class="mt-4">{{ item.date }}</p>
                   </td>
                   <td v-if="columnVisibility.plan">
-                    <p class="mt-4">{{ item.orderData.plan }}</p>
+                    <p class="mt-4">{{ item.plan }}</p>
                   </td>
                   <td v-if="columnVisibility.view_user">
                     <v-btn
@@ -178,10 +171,10 @@
           </div>
           <hr />
           <!-- <v-card-title class="d-flex justify-center pa-6">
-            <h5 class="font-weight-bold">{{ selectedItem?.orderData.ClientId }}</h5>
+            <h5 class="font-weight-bold">{{ selectedItem?.stockList.ClientId }}</h5>
           </v-card-title>
           <v-card-text class="d-flex justify-center">
-            <v-img :src="selectedItem?.orderData.image"></v-img>
+            <v-img :src="selectedItem?.stockList.image"></v-img>
           </v-card-text> -->
           <VTabs v-model="currentTab">
             <VTab>Calls</VTab>
@@ -352,7 +345,6 @@ const currentTab = ref(0)
 console.log(currentTab.value, 'currentT')
 const search = ref('')
 const headers = [
-  { key: 'clientId', title: 'Client Code' },
   { key: 'stockSymbol', title: 'Stock' },
   { key: 'buySellType', title: 'Type' },
   { key: 'quantity', title: 'Quantity' },
@@ -390,7 +382,7 @@ const fetchData = async () => {
       to: endDate.value,
     }
 
-    const response = await axios.post('https://g1.gwcindia.in/powerstocks/ps-view.php', data)
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/ps-sample-v2.php', data)
 
     // Debug after successful response
     console.log(response.data, 'response.data') // Ensure this logs the expected data structure
@@ -406,16 +398,41 @@ fetchData()
 watch([startDate, endDate], fetchData, { deep: true })
 const dateRange = ref('')
 const filteredDesserts = computed(() => {
-  console.log('Filtered Desserts Computation Started')
+  if (!productdetails.value || !Array.isArray(productdetails.value.stockList)) {
+    return []
+  }
+
   const query = search.value.toLowerCase()
-  const filtered = productdetails.value.filter(item => {
-    const searchText = Object.values(item.orderData) // Assuming orderData contains searchable fields
+  const filtered = productdetails.value.stockList.filter(item => {
+    const searchText = Object.values(item) // Assuming item contains searchable fields
       .join(' ') // Combine all searchable fields into a single string
       .toLowerCase()
     return searchText.includes(query)
   })
   return filtered
 })
+
+const selectedItem = ref(null)
+
+const exportDataToCsv = () => {
+  if (!productdetails.value.stockList || !productdetails.value.stockList.length) {
+    return
+  }
+
+  const rows = [
+    ['Stock Symbol', 'Type', 'Quantity', 'Date', 'plan'],
+    ...productdetails.value.stockList.map(item => [item.stockName, item.buySell, item.quantity, item.date, item.plan]),
+  ]
+
+  const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(row => row.join(',')).join('\n')
+
+  const link = document.createElement('a')
+  link.setAttribute('href', encodeURI(csvContent))
+  link.setAttribute('download', 'productdetails_data.csv')
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
 const desserts = [
   {
     dessert: 'HDFCBANK-EQ',
@@ -460,40 +477,9 @@ const desserts = [
     carbs: 'PLAN12',
   },
 ]
-
-const selectedItem = ref(null)
-
-const exportDataToCsv = () => {
-  if (!productdetails.value.length) {
-    return
-  }
-
-  const rows = [
-    ['Client Code', 'Stock Symbol', 'Type', 'Quantity', 'Date', 'plan'],
-    ...productdetails.value.map(item => [
-      item.orderData.clientId,
-      item.orderData.stockSymbol,
-      item.orderData.buySellType,
-      item.orderData.quantity,
-      item.orderData.date,
-      item.orderData.plan,
-    ]),
-  ]
-
-  const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(row => row.join(',')).join('\n')
-
-  const link = document.createElement('a')
-  link.setAttribute('href', encodeURI(csvContent))
-  link.setAttribute('download', 'productdetails_data.csv')
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
 const isDrawerOpen = ref(false)
 const isOpen = ref(false)
 const columnVisibility = ref({
-  clientId: true,
   stockSymbol: true,
   buySellType: true,
   quantity: true,

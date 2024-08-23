@@ -326,137 +326,11 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      desserts1: [
-        {
-          userCode: 'user123',
-          userMobile: '9876543210',
-          from: 'PowerStocks',
-          templateName: 'Welcome Email',
-          sendDateTime: '2023-03-15 10:00:00',
-          sendReqData: '{"name":"Archana","email":"Archana@gmail.com"}',
-          sendResponseData: '{"status":"success","message_id":"1234567890"}',
-          msgStatus: 'Sent',
-          StatusUpdatedTime: '2023-03-15 10:00:05',
-          messageId: '1234567890',
-          messageSentTime: '2023-03-15 10:00:05',
-          SendWebHookData: '{}',
-          messageDeliveredTime: '2023-03-15 10:00:10',
-          DeliveredWebhookData: '{}',
-          messageReadTime: '2023-03-15 10:00:15',
-          readWebhookData: '{}',
-          pskey: 'xyz123',
-          entryDate: '2023-03-15',
-          entryTime: '10:00:00',
-        },
-        {
-          userCode: 'user123',
-          userMobile: '9876543210',
-          from: 'PowerStocks',
-          templateName: 'Welcome Email',
-          sendDateTime: '2023-03-15 10:00:00',
-          sendReqData: '{"name":"Archana","email":"Archana@gmail.com"}',
-          sendResponseData: '{"status":"success","message_id":"1234567890"}',
-          msgStatus: 'Sent',
-          StatusUpdatedTime: '2023-03-15 10:00:05',
-          messageId: '1234567890',
-          messageSentTime: '2023-03-15 10:00:05',
-          SendWebHookData: '{}',
-          messageDeliveredTime: '2023-03-15 10:00:10',
-          DeliveredWebhookData: '{}',
-          messageReadTime: '2023-03-15 10:00:15',
-          readWebhookData: '{}',
-          pskey: 'xyz123',
-          entryDate: '2023-03-15',
-          entryTime: '10:00:00',
-        },
-        {
-          userCode: 'user123',
-          userMobile: '9876543210',
-          from: 'PowerStocks',
-          templateName: 'Welcome Email',
-          sendDateTime: '2023-03-15 10:00:00',
-          sendReqData: '{"name":"Archana","email":"Archana@gmail.com"}',
-          sendResponseData: '{"status":"success","message_id":"1234567890"}',
-          msgStatus: 'Sent',
-          StatusUpdatedTime: '2023-03-15 10:00:05',
-          messageId: '1234567890',
-          messageSentTime: '2023-03-15 10:00:05',
-          SendWebHookData: '{}',
-          messageDeliveredTime: '2023-03-15 10:00:10',
-          DeliveredWebhookData: '{}',
-          messageReadTime: '2023-03-15 10:00:15',
-          readWebhookData: '{}',
-          pskey: 'xyz123',
-          entryDate: '2023-03-15',
-          entryTime: '10:00:00',
-        },
-        {
-          userCode: 'user789',
-          userMobile: '9876543210',
-          from: 'PowerStocks',
-          templateName: 'Welcome Email',
-          sendDateTime: '2023-03-15 10:00:00',
-          sendReqData: '{"name":"Arthi","email":"Arthi@gmail.com"}',
-          sendResponseData: '{"status":"success","message_id":"1234567890"}',
-          msgStatus: 'Sent',
-          StatusUpdatedTime: '2023-03-15 10:00:05',
-          messageId: '1234567890',
-          messageSentTime: '2023-03-15 10:00:05',
-          SendWebHookData: '{}',
-          messageDeliveredTime: '2023-03-15 10:00:10',
-          DeliveredWebhookData: '{}',
-          messageReadTime: '2023-03-15 10:00:15',
-          readWebhookData: '{}',
-          pskey: 'xyz123',
-          entryDate: '2023-03-15',
-          entryTime: '10:00:00',
-        },
-        {
-          userCode: 'user1000',
-          userMobile: '9876543210',
-          from: 'PowerStocks',
-          templateName: 'Welcome Email',
-          sendDateTime: '2023-03-15 10:00:00',
-          sendReqData: '{"name":"aa","email":"aa@gmail.com"}',
-          sendResponseData: '{"status":"success","message_id":"1234567890"}',
-          msgStatus: 'Sent',
-          StatusUpdatedTime: '2023-03-15 10:00:05',
-          messageId: '1234567890',
-          messageSentTime: '2023-03-15 10:00:05',
-          SendWebHookData: '{}',
-          messageDeliveredTime: '2023-03-15 10:00:10',
-          DeliveredWebhookData: '{}',
-          messageReadTime: '2023-03-15 10:00:15',
-          readWebhookData: '{}',
-          pskey: 'xyz123',
-          entryDate: '2023-03-15',
-          entryTime: '10:00:00',
-        },
-        {
-          userCode: '777777',
-          userMobile: '9876543210',
-          from: 'PowerStocks',
-          templateName: 'Welcome Email',
-          sendDateTime: '2023-03-15 10:00:00',
-          sendReqData: '{"name":"Archana123","email":"Archana123@gmail.com"}',
-          sendResponseData: '{"status":"success","message_id":"1234567890"}',
-          msgStatus: 'Sent',
-          StatusUpdatedTime: '2023-03-15 10:00:05',
-          messageId: '1234567890',
-          messageSentTime: '2023-03-15 10:00:05',
-          SendWebHookData: '{}',
-          messageDeliveredTime: '2023-03-15 10:00:10',
-          DeliveredWebhookData: '{}',
-          messageReadTime: '2023-03-15 10:00:15',
-          readWebhookData: '{}',
-          pskey: 'xyz123',
-          entryDate: '2023-03-15',
-          entryTime: '10:00:00',
-        },
-      ],
+      desserts1: [],
       filteredDesserts1: [],
       search: '',
       isOpen: false,
@@ -481,9 +355,21 @@ export default {
         entryDate: true,
         entryTime: true,
       },
+      startDate: '',
+      ensDate: '',
     }
   },
   mounted() {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    this.startDate = `${yesterday.getFullYear()}-${('0' + (yesterday.getMonth() + 1)).slice(-2)}-${(
+      '0' + yesterday.getDate()
+    ).slice(-2)}`
+    const today = new Date()
+    this.endDate = `${today.getFullYear()}-${('0' + (today.getMonth() + 1)).slice(-2)}-${('0' + today.getDate()).slice(
+      -2,
+    )}`
+    this.fetchData()
     this.filteredDesserts1 = this.desserts1 // initialize filteredDesserts with the full array
   },
   computed: {
@@ -491,26 +377,27 @@ export default {
       let filteredData = this.desserts1
       if (this.search) {
         filteredData = filteredData.filter(item => {
+          const regex = new RegExp(this.search, 'i')
           return (
-            item.userCode.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.userMobile.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.from.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.templateName.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.sendDateTime.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.sendReqData.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.sendResponseData.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.msgStatus.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.StatusUpdatedTime.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.messageId.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.messageSentTime.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.SendWebHookData.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.messageDeliveredTime.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.DeliveredWebhookData.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.messageReadTime.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.readWebhookData.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.pskey.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.entryDate.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.entryTime.toLowerCase().includes(this.search.toLowerCase())
+            regex.test(item.userCode) ||
+            regex.test(item.userMobile) ||
+            regex.test(item.from) ||
+            regex.test(item.templateName) ||
+            regex.test(item.sendDateTime) ||
+            regex.test(item.sendReqData) ||
+            regex.test(item.sendResponseData) ||
+            regex.test(item.msgStatus) ||
+            regex.test(item.StatusUpdatedTime) ||
+            regex.test(item.messageId) ||
+            regex.test(item.messageSentTime) ||
+            regex.test(item.SendWebHookData) ||
+            regex.test(item.messageDeliveredTime) ||
+            regex.test(item.DeliveredWebhookData) ||
+            regex.test(item.messageReadTime) ||
+            regex.test(item.readWebhookData) ||
+            regex.test(item.pskey) ||
+            regex.test(item.entryDate) ||
+            regex.test(item.entryTime)
           )
         })
       }
@@ -518,16 +405,19 @@ export default {
     },
   },
   methods: {
-    selectdate(dates) {
-      // Filter data based on selected dates
-      // ...
+    selectdate([start, end]) {
+      debugger
+      this.startDate = start
+      this.endDate = end
+      console.log('Selected dates final;:', this.startDate, this.endDate)
+      this.fetchData()
     },
     toggleDropdown() {
       this.isOpen = !this.isOpen
     },
     exportDataToCsv() {
       // Get the filtered data
-      const data = this.filteredDesserts1
+      const data = this.desserts1
 
       // Create a CSV string
       const csv = [
@@ -555,6 +445,40 @@ export default {
 
       // Clean up the link
       URL.revokeObjectURL(link.href)
+    },
+    watch: {
+      startDate: function () {
+        this.fetchData()
+      },
+      endDate: function () {
+        this.fetchData()
+      },
+    },
+
+    fetchData() {
+      debugger
+      try {
+        if (this.startDate && this.endDate) {
+          const formData = new FormData()
+          formData.append('from', this.startDate)
+          formData.append('to', this.endDate)
+          formData.append('logType', 'WHATSAPP')
+          formData.append('authKey', '198a3a05de29c9cc6682116efb2fcef84a5e1cd8b91c6bcbc75ca38177ca96b7')
+
+          axios
+            .post('https://g1.gwcindia.in/powerstocks/log-wa-email.php', formData)
+            .then(response => {
+              this.desserts1 = response.data.log // Update this.desserts with the response data
+              console.log(response.data, 'response.data', this.desserts1) // Should print the correct data
+            })
+            .catch(error => {
+              console.error('Error:', error)
+            })
+        }
+      } catch (err) {
+        console.error('Error:', err)
+      } finally {
+      }
     },
   },
 }
