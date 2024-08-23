@@ -139,9 +139,8 @@ import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
-
 const router = useRouter()
-const allowedIps = ['157.49.96.161', '157.49.97.221', '223.185.25.251', '157.49.99.30']
+const allowedIps = ['157.49.96.161', '157.49.97.221', '223.185.25.251', '157.49.99.30', '27.60.167.129']
 
 const isValidEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -163,7 +162,6 @@ const handleLogin = async () => {
   const clientIp = response.data.ip
   if (allowedIps.includes(clientIp)) {
     if (isValidForm.value) {
-      // Route to datatable page
       router.push('/tableData')
     }
   } else {
