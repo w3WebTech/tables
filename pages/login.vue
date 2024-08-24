@@ -140,8 +140,8 @@ import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
 const router = useRouter()
-const allowedIps = ['157.49.96.161', '157.49.97.221', '223.185.25.251', '157.49.99.30', '27.60.167.129']
-
+let allowedIps = ref([])
+let userIdArray = ref([])
 const isValidEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return emailRegex.test(email)
@@ -161,14 +161,44 @@ const handleLogin = async () => {
   console.log(response.data.ip, response.data, 'response.data.ip')
   const clientIp = response.data.ip
   if (allowedIps.includes(clientIp)) {
-    if (isValidForm.value) {
+    const enteredEmail = form.value.email
+    const enteredPassword = form.value.password
+
+    const foundUser = userIdArray.find(user => user.eMail === enteredEmail && user.passWord === enteredPassword)
+
+    if (foundUser) {
       router.push('/tableData')
+    } else {
+      alert('Invalid email or password')
     }
   } else {
     alert('Access denied. Your IP address is not allowed.')
   }
 }
-
+const getIp = async () => {
+  try {
+    const response = await axios.get('https://g1.gwcindia.in/powerstocks/ipadress.php')
+    allowedIps = response.data
+    // Debug after successful response
+    console.log(response.data, 'response.data') // Ensure this logs the expected data structure
+  } catch (err) {
+    console.error('Error:', err)
+  } finally {
+  }
+}
+const getId = async () => {
+  try {
+    const response = await axios.get('https://g1.gwcindia.in/powerstocks/userId.php')
+    userIdArray = response.data
+    // Debug after successful response
+    console.log(response.data, 'response.data.id') // Ensure this logs the expected data structure
+  } catch (err) {
+    console.error('Error:', err)
+  } finally {
+  }
+}
+getIp()
+getId()
 const form = ref({
   email: '',
   password: '',
