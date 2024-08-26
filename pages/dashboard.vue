@@ -49,13 +49,6 @@ const newProject = {
       cols="12"
       md="4"
     >
-      <AnalyticsWeeklyOverview />
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4"
-    >
       <AnalyticsTotalEarning />
     </VCol>
 
@@ -92,6 +85,12 @@ const newProject = {
           <AnalyticsBarCharts />
         </VCol>
       </VRow>
+    </VCol>
+    <VCol
+      cols="12"
+      md="4"
+    >
+      <!-- <AnalyticsWeeklyOverview /> -->
     </VCol>
 
     <VCol

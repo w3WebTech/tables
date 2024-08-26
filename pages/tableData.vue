@@ -36,48 +36,57 @@
             </div> -->
             <div
               v-if="isOpen"
-              class="dr w-500 p-2 origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+              class="dr w-500 p-2 origin-top-right absolute right-70 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
             >
               <div class="drop-menu my-2">
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label class="relative inline-flex items-center cursor-pointer py-2">
                   <div class="demo-space-x">
-                    <VSwitch v-model="columnVisibility.stockSymbol" />
+                    <VSwitch v-model="columnVisibility.ClientId" />
                   </div>
 
-                  <span class="text-xs font-medium text-gray-900">StockSymbol</span>
+                  <span class="text-xs font-medium text-gray-900">clientId</span>
                 </label>
+                <br />
 
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label class="relative inline-flex items-center cursor-pointer py-2">
                   <div class="demo-space-x">
-                    <VSwitch v-model="columnVisibility.buySellType" />
+                    <VSwitch v-model="columnVisibility.clientName" />
                   </div>
-                  <span class="text-xs font-medium text-gray-900">Buy/SellType</span>
+                  <span class="text-xs font-medium text-gray-900">clientName</span>
                 </label>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <VSwitch v-model="columnVisibility.quantity" />
+                <br />
+                <label class="relative inline-flex items-center cursor-pointer py-2">
+                  <VSwitch v-model="columnVisibility.branchCode" />
                   <input
                     class="cols whitespace-nowrap"
                     type="checkbox"
                     id="status"
                   />
-                  <span class="text-xs font-medium text-gray-900">Quantity</span>
+                  <span class="text-xs font-medium text-gray-900">branchCode</span>
                 </label>
                 <br />
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label class="relative inline-flex items-center cursor-pointer py-2">
                   <div class="demo-space-x">
-                    <VSwitch v-model="columnVisibility.date" />
+                    <VSwitch v-model="columnVisibility.receivedDate" />
                   </div>
-                  <span class="text-xs font-medium text-gray-900">Date</span>
+                  <span class="text-xs font-medium text-gray-900">receivedDate</span>
                 </label>
                 <br />
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label class="relative inline-flex items-center cursor-pointer py-2">
+                  <div class="demo-space-x">
+                    <VSwitch v-model="columnVisibility.receivedTime" />
+                  </div>
+                  <span class="text-xs font-medium text-gray-900">receivedTime</span>
+                </label>
+                <br />
+                <label class="relative inline-flex items-center cursor-pointer py-2">
                   <div class="demo-space-x">
                     <VSwitch v-model="columnVisibility.plan" />
                   </div>
-                  <span class="text-xs font-medium text-gray-900">Plan</span>
+                  <span class="text-xs font-medium text-gray-900">plan</span>
                 </label>
                 <br />
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label class="relative inline-flex items-center cursor-pointer py-2">
                   <div class="demo-space-x">
                     <VSwitch v-model="columnVisibility.view_user" />
                   </div>
@@ -101,26 +110,29 @@
         <VRow>
           <VCol cols="12 my-4">
             <v-data-table
-              :headers="tableHeaders"
+              :headers="visibleTableHeaders"
               :items="filteredDesserts"
-              item-key="stockName"
+              item-key="ClientId"
             >
               <template v-slot:item="{ item }">
                 <tr class="">
                   <!-- <td v-if="columnVisibility.clientId">
                     <p class="mt-4">{{ item.stockList.ClientId }}</p>
                   </td> -->
-                  <td v-if="columnVisibility.stockSymbol">
-                    <p class="mt-4">{{ item.stockName }}</p>
+                  <td v-if="columnVisibility.ClientId">
+                    <p class="mt-4">{{ item.ClientId }}</p>
                   </td>
-                  <td v-if="columnVisibility.buySellType">
-                    <p class="mt-4">{{ item.buySell }}</p>
+                  <td v-if="columnVisibility.clientName">
+                    <p class="mt-4">{{ item.clientName }}</p>
                   </td>
-                  <td v-if="columnVisibility.quantity">
-                    <p class="mt-4">{{ item.quantity }}</p>
+                  <td v-if="columnVisibility.branchCode">
+                    <p class="mt-4">{{ item.branchCode }}</p>
                   </td>
-                  <td v-if="columnVisibility.date">
-                    <p class="mt-4">{{ item.date }}</p>
+                  <td v-if="columnVisibility.receivedDate">
+                    <p class="mt-4">{{ item.receivedDate }}</p>
+                  </td>
+                  <td v-if="columnVisibility.receivedTime">
+                    <p class="mt-4">{{ item.receivedTime }}</p>
                   </td>
                   <td v-if="columnVisibility.plan">
                     <p class="mt-4">{{ item.plan }}</p>
@@ -345,12 +357,13 @@ const currentTab = ref(0)
 console.log(currentTab.value, 'currentT')
 const search = ref('')
 const headers = [
-  { key: 'stockSymbol', title: 'Stock' },
-  { key: 'buySellType', title: 'Type' },
-  { key: 'quantity', title: 'Quantity' },
-  { key: 'date', title: 'Date' },
+  { key: 'ClientId', title: 'Client Id' },
+  { key: 'clientName', title: 'Client Name' },
+  { key: 'branchCode', title: 'Branch Code' },
+  { key: 'receivedDate', title: 'Received Date' },
+  { key: 'receivedTime', title: 'Received Time' },
   { key: 'plan', title: 'Plan' },
-  { key: 'orderView', title: 'Order-View' },
+  { key: 'view_user', title: 'View User' },
 ]
 const startDate = ref(new Date().toISOString().substr(0, 10)) // Set start date to current date
 const endDate = ref('')
@@ -372,7 +385,13 @@ const selectdate = ([start, end]) => {
   console.log('Selected dates final;:', startDate.value, endDate.value)
   fetchData()
 }
-
+const visibleTableHeaders = computed(() => {
+  return tableHeaders.filter(header => columnVisibility.value[header.value])
+})
+const toggleColumnVisibility = column => {
+  columnVisibility.value[column] = !columnVisibility.value[column]
+  visibleTableHeaders.value = tableHeaders.filter(header => columnVisibility.value[header.value])
+}
 const fetchData = async () => {
   pending.value = true
 
@@ -382,7 +401,7 @@ const fetchData = async () => {
       to: endDate.value,
     }
 
-    const response = await axios.post('https://g1.gwcindia.in/powerstocks/ps-sample-v2.php', data)
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerStocksView-v2.php', data)
 
     // Debug after successful response
     console.log(response.data, 'response.data') // Ensure this logs the expected data structure
@@ -393,17 +412,35 @@ const fetchData = async () => {
     pending.value = false
   }
 }
+const detailedView = async () => {
+  try {
+    const data = {
+      clientid: 'GQ1A0007',
+      bulkrequestid:
+        'b0cf19742beee0e1287ad818787a479a5779786668687663422f34364669576d6d6d317431553769564c592f3553557448774c734645356962636779573244636545554d7970485379656e76312f784173413d3d',
+    }
+
+    const response = await axios.post('https://g1.gwcindia.in/powerStocksView-single.php', data)
+
+    // Debug after successful response
+    console.log(response.data, 'response.data11') // Ensure this logs the expected data structure
+  } catch (err) {
+    console.error('Error:', err)
+  } finally {
+  }
+}
 
 fetchData()
+detailedView()
 watch([startDate, endDate], fetchData, { deep: true })
 const dateRange = ref('')
 const filteredDesserts = computed(() => {
-  if (!productdetails.value || !Array.isArray(productdetails.value.stockList)) {
+  if (!productdetails.value || !Array.isArray(productdetails.value)) {
     return []
   }
 
   const query = search.value.toLowerCase()
-  const filtered = productdetails.value.stockList.filter(item => {
+  const filtered = productdetails.value.filter(item => {
     const searchText = Object.values(item) // Assuming item contains searchable fields
       .join(' ') // Combine all searchable fields into a single string
       .toLowerCase()
@@ -415,13 +452,20 @@ const filteredDesserts = computed(() => {
 const selectedItem = ref(null)
 
 const exportDataToCsv = () => {
-  if (!productdetails.value.stockList || !productdetails.value.stockList.length) {
+  if (!productdetails.value || !productdetails.value.length) {
     return
   }
 
   const rows = [
-    ['Stock Symbol', 'Type', 'Quantity', 'Date', 'plan'],
-    ...productdetails.value.stockList.map(item => [item.stockName, item.buySell, item.quantity, item.date, item.plan]),
+    ['Client Code', 'Client Name', 'Branch Code', 'Received date', 'Received time', 'plan', 'view'],
+    ...productdetails.value.map(item => [
+      item.ClientId,
+      item.clientName,
+      item.branchCode,
+      item.receivedDate,
+      item.receivedTime,
+      item.plan,
+    ]),
   ]
 
   const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(row => row.join(',')).join('\n')
@@ -480,10 +524,11 @@ const desserts = [
 const isDrawerOpen = ref(false)
 const isOpen = ref(false)
 const columnVisibility = ref({
-  stockSymbol: true,
-  buySellType: true,
-  quantity: true,
-  date: true,
+  ClientId: true,
+  clientName: true,
+  branchCode: true,
+  receivedDate: true,
+  receivedTime: true,
   plan: true,
   view_user: true,
 })
@@ -492,9 +537,9 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value
 }
 
-const toggleColumnVisibility = column => {
-  columnVisibility.value[column] = !columnVisibility.value[column]
-}
+// const toggleColumnVisibility = column => {
+//   columnVisibility.value[column] = !columnVisibility.value[column]
+// }
 
 const tableHeaders = headers.map(header => ({
   ...header,

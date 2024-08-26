@@ -14,7 +14,7 @@
             <input
               v-model="search"
               placeholder="Search..."
-              class="mt-1 block w-full px-3 mx-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+              class="mt-1 block w-full px-3 mx-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
             />
           </VCol>
           <VCol
@@ -120,44 +120,44 @@
           <VCard class="h-screen">
             <VCardTitle class="py-8"> ADD NEW CLIENT </VCardTitle>
             <VCardSubtitle>
-              <v-form>
-                <v-text-field
-                  v-model="createClient.ClientCode"
-                  label="Client Code *"
-                  required
-                  class="py-2"
-                ></v-text-field>
-                <v-text-field
-                  v-model="createClient.ClientEmailId"
-                  label="Client Email"
-                  required
-                  class="py-2"
-                ></v-text-field>
-                <v-text-field
-                  v-model="createClient.ClientMobileno"
-                  label="Client Mobile No"
-                  required
-                  class="py-2"
-                ></v-text-field>
-                <v-text-field
-                  v-model="createClient.BranchCode"
-                  required
-                  label="Branch Code"
-                  class="py-2"
-                ></v-text-field>
-                <v-text-field
-                  v-model="createClient.BranchEmail"
-                  label="Branch Email"
-                  required
-                  class="py-2"
-                ></v-text-field>
-                <v-text-field
-                  v-model="createClient.BranchMobile"
-                  label="Branch Mobile No"
-                  required
-                  class="py-2"
-                ></v-text-field>
-              </v-form>
+              <VTextField
+                v-model="createClient.ClientCode"
+                label="Client Code *"
+                required
+                class="py-2"
+                :outline="false"
+              ></VTextField>
+
+              <VTextField
+                v-model="createClient.ClientEmailId"
+                label="Client Email"
+                required
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="createClient.ClientMobileno"
+                label="Client Mobile No"
+                required
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="createClient.BranchCode"
+                required
+                label="Branch Code"
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="createClient.BranchEmail"
+                label="Branch Email"
+                required
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="createClient.BranchMobile"
+                label="Branch Mobile No"
+                required
+                class="py-2"
+              ></VTextField>
             </VCardSubtitle>
             <VCardActions class="py-8">
               <v-spacer></v-spacer>
@@ -309,11 +309,29 @@ const exportDataToCsv = () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .text-black {
   color: black;
 }
-
+[type='text'],
+input:where(:not([type])),
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+select {
+  --tw-ring-color: none !important;
+  /* Additional styles as needed */
+}
 .text-gray {
   color: gray;
 }
@@ -339,11 +357,7 @@ const exportDataToCsv = () => {
   position: absolute;
   z-index: 10;
 }
-.custom-add-button {
-  background-color: #2b58a3;
-  border: 1px solid #2b58a3;
-  color: rgb(252, 249, 249);
-}
+
 .cursor-pointer {
   cursor: pointer;
 }
