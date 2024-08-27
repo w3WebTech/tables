@@ -377,13 +377,13 @@ const currentTab = ref(0)
 console.log(currentTab.value, 'currentT')
 const search = ref('')
 const headers = [
-  { key: 'ClientId', title: 'Client Id' },
-  { key: 'clientName', title: 'Client Name' },
-  { key: 'branchCode', title: 'Branch Code' },
-  { key: 'receivedDate', title: 'Received Date' },
-  { key: 'receivedTime', title: 'Received Time' },
+  { key: 'ClientId', title: 'ClientId' },
+  { key: 'clientName', title: 'ClientName' },
+  { key: 'branchCode', title: 'BranchCode' },
+  { key: 'receivedDate', title: 'ReceivedDate' },
+  { key: 'receivedTime', title: 'ReceivedTime' },
   { key: 'plan', title: 'Plan' },
-  { key: 'view_user', title: 'View User' },
+  { key: 'view_user', title: 'View' },
 ]
 const startDate = ref(new Date().toISOString().substr(0, 10)) // Set start date to current date
 const endDate = ref('')
