@@ -140,7 +140,16 @@
                   <td v-if="columnVisibility.view_user">
                     <v-btn
                       class="bg-logcolor w-10"
-                      @click="isDrawerOpen = true"
+                      @click="
+                        Routeto(
+                          item.ClientId,
+                          item.bulkReqId,
+                          item.clientName,
+                          item.emailId,
+                          item.panNo,
+                          item.branchCode,
+                        )
+                      "
                     >
                       <VIcon
                         icon="ri-information-line"
@@ -162,147 +171,158 @@
         temporary
         v-if="isDrawerOpen == true"
       >
-        <VCard>
-          <div class="container mx-auto p-4">
-            <div class="bg-white p-6">
-              <div class="flex justify-between items-center mb-4">
-                <div>
-                  <p class="text-gray-600 text-sm">Name: Ramanathan V</p>
-                  <p class="text-gray-600 text-sm">M: Ramanathan V</p>
-                </div>
-                <div>
-                  <p class="text-gray-600 text-sm">PAN: AU0XXXXXXB</p>
-                  <p class="text-gray-600 text-sm">E: Ramanathan V</p>
-                </div>
-                <div>
-                  <p class="text-gray-600 text-sm">Branch: AU0XXXXXXB</p>
-                  <p class="text-gray-600 text-sm">Branch Email: Ramanathan V</p>
-                </div>
+        <div class="container mx-auto p-4">
+          <div class="bg-white p-6">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <p class="text-gray-600 text-sm">Name: {{ selectedUser.clientName }}</p>
+                <p class="text-gray-600 text-sm">M: {{ selectedUser.clientName }}</p>
+              </div>
+              <div>
+                <p class="text-gray-600 text-sm">PAN: {{ selectedUser.panNo }}</p>
+                <p class="text-gray-600 text-sm">E: {{ selectedUser.clientName }}</p>
+              </div>
+              <div>
+                <p class="text-gray-600 text-sm">Branch: {{ selectedUser.branchCode }}</p>
+                <p class="text-gray-600 text-sm">Branch Email: {{ selectedUser.email }}</p>
               </div>
             </div>
           </div>
-          <hr />
-          <!-- <v-card-title class="d-flex justify-center pa-6">
+        </div>
+        <hr />
+        <!-- <v-card-title class="d-flex justify-center pa-6">
             <h5 class="font-weight-bold">{{ selectedItem?.stockList.ClientId }}</h5>
           </v-card-title>
           <v-card-text class="d-flex justify-center">
             <v-img :src="selectedItem?.stockList.image"></v-img>
           </v-card-text> -->
-          <VTabs v-model="currentTab">
-            <VTab>Calls</VTab>
-            <VTab>Communication</VTab>
-            <VTab>Confirmation</VTab>
-            <VTab>Existing Order/Payment Status</VTab>
-            <VTab>Payment / Order Status</VTab>
-          </VTabs>
+        <VTabs v-model="currentTab">
+          <VTab class="text-sm">Calls</VTab>
+          <VTab class="text-sm">Communication</VTab>
+          <VTab class="text-sm">Confirmation</VTab>
+          <VTab class="text-sm">ExistingOrder/PaymentStatus</VTab>
+          <VTab class="text-sm">Payment/OrderStatus</VTab>
+        </VTabs>
 
-          <VWindow
-            v-model="currentTab"
-            class="mt-5"
-          >
-            <VWindowItem class="h-screen">
-              <div class="p-5">
-                <VTable class="border">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase">Stock Symbol</th>
-                      <th class="text-uppercase">Quantity</th>
-                      <th class="text-uppercase">Buy / Sell</th>
-                      <th class="text-uppercase">Plan</th>
-                    </tr>
-                  </thead>
+        <VWindow
+          v-model="currentTab"
+          class="mt-5 max-h-screen"
+        >
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="p-5">
+              <VTable class="border">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase">Stock Symbol</th>
+                    <th class="text-uppercase">Quantity</th>
+                    <th class="text-uppercase">Buy / Sell</th>
+                    <th class="text-uppercase">Plan</th>
+                  </tr>
+                </thead>
 
-                  <tbody>
-                    <tr
-                      v-for="item in desserts"
-                      :key="item.dessert"
-                    >
-                      <td>
-                        {{ item.dessert }}
-                      </td>
-                      <td>
-                        {{ item.calories }}
-                      </td>
-                      <td>
-                        {{ item.fat }}
-                      </td>
-                      <td>
-                        {{ item.carbs }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </VTable>
-              </div>
-            </VWindowItem>
-            <VWindowItem class="h-screen">
-              <div class="container mx-auto p-4">
-                <div class="bg-white p-6">
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Power Stocks to Email:</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">1, Sent an email to Customer mail id</p>
-                    <p class="text-gray-600 text-sm">erffxxxxxxxxx@gxxx.com 23-08-2024 at 15:22:22</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">2, Delivered email</p>
-                    <p class="text-gray-600 text-sm">erffxxxxxxxxx@gxxx.com 23-08-2024 at 15:22:32</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Power Stocks to Whatsapp:</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">1, Sent an whatsapp to Customer mobile no</p>
-                    <p class="text-gray-600 text-sm">9xxxx xxx32 23-08-2024 at 15:22:22</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">2, Delivered Whatsapp to Customer mobile no</p>
-                    <p class="text-gray-600 text-sm">9xxxx xxx32 23-08-2024 at 15:22:23</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">COMMUNICATION</p>
-                  </div>
+                <tbody>
+                  <tr
+                    v-for="item in info.stockList"
+                    :key="item.stockName"
+                  >
+                    <td>
+                      {{ item.stockName }}
+                    </td>
+                    <td>
+                      {{ item.quantity }}
+                    </td>
+                    <td>
+                      {{ item.buySell }}
+                    </td>
+                    <td>
+                      {{ item.plan }}
+                    </td>
+                  </tr>
+                </tbody>
+              </VTable>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Power Stocks to Email:</p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">1, Sent an email to Customer mail id</p>
+                  <p class="text-gray-600 text-sm">
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmail }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailSub }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailSentTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">2, Delivered email</p>
+                  <p class="text-gray-600 text-sm">
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmail }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailSub }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailDelTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Power Stocks to Whatsapp:</p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">1, Sent an whatsapp to Customer mobile no</p>
+                  <p class="text-gray-600 text-sm">
+                    {{ info.recommentation_notify.waNotifyLog.noteWAmessageSentTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">2, Delivered Whatsapp to Customer mobile no</p>
+                  <p class="text-gray-600 text-sm">
+                    {{ info.recommentation_notify.waNotifyLog.noteWAmessageDeliveredTime }}
+                  </p>
                 </div>
               </div>
-            </VWindowItem>
-            <VWindowItem class="h-screen">
-              <div class="container mx-auto p-4">
-                <div class="bg-white p-6">
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Confirmed by Customer mail id at 23-08-2024at 15:22:22</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Confirmed by Customer Whatsapp at 23-08-2024at 15:22:22</p>
-                  </div>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">
+                    Confirmed by Customer {{ info.confirm_status.confirmationFrom }} at
+                    {{ info.confirm_status.confirmStatusDateTime }}
+                  </p>
                 </div>
               </div>
-            </VWindowItem>
-            <VWindowItem class="h-screen">
-              <div class="container mx-auto p-4">
-                <div class="bg-white p-6">
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Existing Order Placed at 23-08-2024at 15:22:22</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Reason:</p>
-                  </div>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">
+                    Existing Order Placed at {{ info.order_payin_notify.payinNotifyDateTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Reason:</p>
                 </div>
               </div>
-            </VWindowItem>
-            <VWindowItem class="h-screen">
-              <div class="container mx-auto p-4">
-                <div class="bg-white p-6">
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Order Placed at 23-08-2024at 15:22:22</p>
-                  </div>
-                  <div class="mb-4">
-                    <p class="text-gray-600 text-sm">Reason:</p>
-                  </div>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">
+                    Order Placed at{{ info.placeOrder_payin_notify.payinNotifyDateTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Reason:</p>
                 </div>
               </div>
-            </VWindowItem>
-          </VWindow>
-        </VCard>
+            </div>
+          </VWindowItem>
+        </VWindow>
       </VNavigationDrawer>
     </div>
   </VContainer>
@@ -326,7 +346,7 @@
   left: auto !important;
   position: fixed !important;
   /* Optional: adjust width as needed */
-  width: 60% !important;
+  width: 70% !important;
   transition: transform 2s ease-in-out;
   transform: translateX(100%);
 }
@@ -369,8 +389,14 @@ const startDate = ref(new Date().toISOString().substr(0, 10)) // Set start date 
 const endDate = ref('')
 
 const productdetails = ref([])
+const selectedUser = ref({
+  useName: '',
+  email: '',
+  panNo: '',
+  branchCode: '',
+})
 const pending = ref(false)
-
+const info = ref({})
 function formatDateToISO(date) {
   const yyyy = date.getFullYear()
   const mm = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
@@ -378,7 +404,15 @@ function formatDateToISO(date) {
 
   return `${yyyy}-${mm}-${dd}`
 }
-
+const Routeto = (clientCode, bulkRedId, clientName, email, panNo, branchCode) => {
+  isDrawerOpen.value = true
+  detailedView(clientCode, bulkRedId)
+  selectedUser.value.email = email
+  selectedUser.value.clientName = clientName
+  selectedUser.value.panNo = panNo
+  selectedUser.value.branchCode = branchCode
+  console.log(clientCode, selectedUser, 'reqdata')
+}
 const selectdate = ([start, end]) => {
   startDate.value = start
   endDate.value = end
@@ -412,18 +446,28 @@ const fetchData = async () => {
     pending.value = false
   }
 }
-const detailedView = async () => {
+const detailedView = async (clientCode, bulkRedId) => {
   try {
     const data = {
-      clientid: 'GQ1A0007',
-      bulkrequestid:
-        'b0cf19742beee0e1287ad818787a479a5779786668687663422f34364669576d6d6d317431553769564c592f3553557448774c734645356962636779573244636545554d7970485379656e76312f784173413d3d',
+      clientCode: clientCode,
+      requestId: bulkRedId,
     }
 
-    const response = await axios.post('https://g1.gwcindia.in/powerStocksView-single.php', data)
+    const params = new URLSearchParams()
+    Object.keys(data).forEach(key => {
+      params.append(key, data[key])
+    })
 
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerStocksView-single.php', params, config)
+    info.value = response.data
     // Debug after successful response
-    console.log(response.data, 'response.data11') // Ensure this logs the expected data structure
+    console.log(response.data, 'response.data11')
   } catch (err) {
     console.error('Error:', err)
   } finally {
@@ -431,7 +475,7 @@ const detailedView = async () => {
 }
 
 fetchData()
-detailedView()
+
 watch([startDate, endDate], fetchData, { deep: true })
 const dateRange = ref('')
 const filteredDesserts = computed(() => {
@@ -521,7 +565,7 @@ const desserts = [
     carbs: 'PLAN12',
   },
 ]
-const isDrawerOpen = ref(false)
+let isDrawerOpen = ref(false)
 const isOpen = ref(false)
 const columnVisibility = ref({
   ClientId: true,

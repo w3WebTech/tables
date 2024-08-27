@@ -37,106 +37,162 @@
                 class="dr w-500 p-2 origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
               >
                 <div
-                  class="dr w-600 p-2 absolute right-60 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                  class="dr w-600 p-2 absolute right-0 mt-2 bg-white rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                 >
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.clientCode" />
                     </div>
 
-                    <span class="text-xs font-medium text-gray-900">ClientCode</span>
+                    <span
+                      v-if="columnVisibility.clientCode"
+                      class="text-xs font-medium text-gray-900"
+                      >ClientCode</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailId" />
                     </div>
 
-                    <span class="text-xs font-medium text-gray-900">EmailId</span>
+                    <span
+                      v-if="columnVisibility.emailId"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailId</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailSubject" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailSubject</span>
+                    <span
+                      v-if="columnVisibility.emailSubject"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailSubject</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailMsgId" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailMsgId</span>
+                    <span
+                      v-if="columnVisibility.emailMsgId"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailMsgId</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailStatus" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailStatus</span>
+                    <span
+                      v-if="columnVisibility.emailStatus"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailStatus</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailSentDateTime" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailSentDateTime</span>
+                    <span
+                      v-if="columnVisibility.emailSentDateTime"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailSendDateTime</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailDeliveredDateTime" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900 pl-2">EmailDeliveredDateTime</span>
+                    <span
+                      v-if="columnVisibility.emailDeliveredDateTime"
+                      class="text-xs font-medium text-gray-900 pl-2"
+                      >EmailDeliveredDateTime</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailOpenedDateTime" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailOpenedDateTime</span>
+                    <span
+                      v-if="columnVisibility.emailOpenedDateTime"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailOpenedDateTime</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailBouncedDateTime" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailBouncedDateTime</span>
+                    <span
+                      v-if="columnVisibility.emailBouncedDateTime"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailBouncedDateTime</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.clickedURL" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">clickedURl</span>
+                    <span
+                      v-if="columnVisibility.clickedURL"
+                      class="text-xs font-medium text-gray-900"
+                      >clickedURl</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.emailClickedDateTime" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EmailClickedDateTime</span>
+                    <span
+                      v-if="columnVisibility.emailClickedDateTime"
+                      class="text-xs font-medium text-gray-900"
+                      >EmailClickedDateTime</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.PSkey" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">PSkey</span>
+                    <span
+                      v-if="columnVisibility.PSkey"
+                      class="text-xs font-medium text-gray-900"
+                      >PSkey</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.entryDate" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EntryDate</span>
+                    <span
+                      v-if="columnVisibility.entryDate"
+                      class="text-xs font-medium text-gray-900"
+                      >EntryDate</span
+                    >
                   </label>
                   <br />
-                  <label class="relative inline-flex items-center cursor-pointer">
+                  <label class="relative inline-flex items-center cursor-pointer py-1">
                     <div class="demo-space-x px-2">
                       <VSwitch v-model="columnVisibility.entryTime" />
                     </div>
-                    <span class="text-xs font-medium text-gray-900">EntryTime</span>
+                    <span
+                      v-if="columnVisibility.entryTime"
+                      class="text-xs font-medium text-gray-900"
+                      >EntryTime</span
+                    >
                   </label>
                 </div>
               </div>
@@ -151,126 +207,127 @@
         </VRow>
         <VRow>
           <VCol cols="12 my-4">
-            <VTable>
-              <thead>
-                <tr>
-                  <th
-                    v-if="columnVisibility.clientCode"
-                    class="text-uppercase"
-                  >
-                    Client Code
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailId"
-                    class="text-uppercase"
-                  >
-                    EmailId
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailSubject"
-                    class="text-uppercase"
-                  >
-                    EmailSubject
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailMsgId"
-                    class="text-uppercase"
-                  >
-                    EmailMsgId
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailStatus"
-                    class="text-uppercase"
-                  >
-                    EmailStatus
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailSentDateTime"
-                    class="text-uppercase"
-                  >
-                    EmailSendDateTime
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailDeliveredDateTime"
-                    class="text-uppercase"
-                  >
-                    EmailDeliveredDateTime
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailOpenedDateTime"
-                    class="text-uppercase"
-                  >
-                    EmailOpenedDateTime
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.emailBouncedDateTime"
-                    class="text-uppercase"
-                  >
-                    EmailBouncedDateTime
-                  </th>
-
-                  <th
-                    v-if="columnVisibility.clickedURL"
-                    class="text-uppercase"
-                  >
-                    clickedURl
-                  </th>
-                  <th
-                    v-if="columnVisibility.emailClickedDateTime"
-                    class="text-uppercase"
-                  >
-                    EmailClickedDateTime
-                  </th>
-                  <th
-                    v-if="columnVisibility.PSkey"
-                    class="text-uppercase"
-                  >
-                    PSkey
-                  </th>
-                  <th
-                    v-if="columnVisibility.entryDate"
-                    class="text-uppercase"
-                  >
-                    EntryDate
-                  </th>
-                  <th
-                    v-if="columnVisibility.entryTime"
-                    class="text-uppercase"
-                  >
-                    EntryTime
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="item in filteredDesserts"
-                  :key="item.dessert"
+            <v-data-table
+              :headers="filteredHeaders"
+              :items="filteredDesserts"
+              :items-per-page="itemsPerPage"
+              :pagination.sync="pagination"
+              :footer-props="{
+                itemsPerPageOptions: [10, 25, 50, 100],
+              }"
+            >
+              <template #item.clientCode="{ item }">
+                <span
+                  v-if="columnVisibility.clientCode"
+                  class=""
+                  >{{ item.clientCode }}</span
                 >
-                  <td v-if="columnVisibility.clientCode">{{ item.clientCode }}</td>
-                  <td v-if="columnVisibility.emailId">{{ item.emailId }}</td>
-                  <td v-if="columnVisibility.emailSubject">{{ item.emailSubject }}</td>
-                  <td v-if="columnVisibility.emailMsgId">{{ item.emailMsgId }}</td>
-                  <td v-if="columnVisibility.emailStatus">{{ item.emailStatus }}</td>
-                  <td v-if="columnVisibility.emailSentDateTime">{{ item.emailSentDateTime }}</td>
-                  <td v-if="columnVisibility.emailDeliveredDateTime">{{ item.emailDeliveredDateTime }}</td>
-                  <td v-if="columnVisibility.emailOpenedDateTime">{{ item.emailOpenedDateTime }}</td>
-                  <td v-if="columnVisibility.emailBouncedDateTime">{{ item.emailBouncedDateTime }}</td>
-                  <td v-if="columnVisibility.clickedURL">{{ item.clickedURL }}</td>
-                  <td v-if="columnVisibility.emailClickedDateTime">{{ item.emailClickedDateTime }}</td>
-                  <td v-if="columnVisibility.PSkey">{{ item.PSkey }}</td>
-                  <td v-if="columnVisibility.entryDate">{{ item.entryDate }}</td>
-                  <td v-if="columnVisibility.entryTime">{{ item.entryTime }}</td>
-                </tr>
-              </tbody>
-            </VTable>
+              </template>
+
+              <template #item.emailId="{ item }">
+                <span
+                  v-if="columnVisibility.emailId"
+                  class=""
+                  >{{ item.emailId }}</span
+                >
+              </template>
+
+              <template #item.emailSubject="{ item }">
+                <span
+                  v-if="columnVisibility.emailSubject"
+                  class=""
+                  >{{ item.emailSubject }}</span
+                >
+              </template>
+
+              <template #item.emailMsgId="{ item }">
+                <span
+                  v-if="columnVisibility.emailMsgId"
+                  class=""
+                  >{{ item.emailMsgId }}</span
+                >
+              </template>
+
+              <template #item.emailStatus="{ item }">
+                <span
+                  v-if="columnVisibility.emailStatus"
+                  class=""
+                  >{{ item.emailStatus }}</span
+                >
+              </template>
+
+              <template #item.emailSentDateTime="{ item }">
+                <span
+                  v-if="columnVisibility.emailSentDateTime"
+                  class=""
+                  >{{ item.emailSentDateTime }}</span
+                >
+              </template>
+
+              <template #item.emailDeliveredDateTime="{ item }">
+                <span
+                  v-if="columnVisibility.emailDeliveredDateTime"
+                  class=""
+                  >{{ item.emailDeliveredDateTime }}</span
+                >
+              </template>
+
+              <template #item.emailOpenedDateTime="{ item }">
+                <span
+                  v-if="columnVisibility.emailOpenedDateTime"
+                  class=""
+                  >{{ item.emailOpenedDateTime }}</span
+                >
+              </template>
+
+              <template #item.emailBouncedDateTime="{ item }">
+                <span
+                  v-if="columnVisibility.emailBouncedDateTime"
+                  class=""
+                  >{{ item.emailBouncedDateTime }}</span
+                >
+              </template>
+
+              <template #item.clickedURL="{ item }">
+                <span
+                  v-if="columnVisibility.clickedURL"
+                  class=""
+                  >{{ item.clickedURL }}</span
+                >
+              </template>
+
+              <template #item.emailClickedDateTime="{ item }">
+                <span
+                  v-if="columnVisibility.emailClickedDateTime"
+                  class=""
+                  >{{ item.emailClickedDateTime }}</span
+                >
+              </template>
+
+              <template #item.PSkey="{ item }">
+                <span
+                  v-if="columnVisibility.PSkey"
+                  class=""
+                  >{{ item.PSkey }}</span
+                >
+              </template>
+
+              <template #item.entryDate="{ item }">
+                <span
+                  v-if="columnVisibility.entryDate"
+                  class=""
+                  >{{ item.entryDate }}</span
+                >
+              </template>
+
+              <template #item.entryTime="{ item }">
+                <span
+                  v-if="columnVisibility.entryTime"
+                  class=""
+                  >{{ item.entryTime }}</span
+                >
+              </template>
+            </v-data-table>
           </VCol>
         </VRow>
       </div>
@@ -305,6 +362,34 @@ export default {
       },
       startDate: '',
       ensDate: '',
+      headers: [
+        { text: 'Client Code', value: 'clientCode', sortable: false, title: 'ClientCode' },
+        { text: 'EmailId', value: 'emailId', sortable: false, title: 'EmailId' },
+        { text: 'EmailSubject', value: 'emailSubject', sortable: false, title: 'EmailSubject' },
+        { text: 'EmailMsgId', value: 'emailMsgId', sortable: false, title: 'EmailMsgId' },
+        { text: 'EmailStatus', value: 'emailStatus', sortable: false, title: 'EmailStatus' },
+        { text: 'EmailSendDateTime', value: 'emailSentDateTime', sortable: false, title: 'EmailSendDateTime' },
+        {
+          text: 'EmailDeliveredDateTime',
+          value: 'emailDeliveredDateTime',
+          sortable: false,
+          title: 'EmailDeliveredDateTime',
+        },
+        { text: 'EmailOpenedDateTime', value: 'emailOpenedDateTime', sortable: false, title: 'EmailOpenedDateTime' },
+        { text: 'EmailBouncedDateTime', value: 'emailBouncedDateTime', sortable: false, title: 'EmailBouncedDateTime' },
+        { text: 'clickedURL', value: 'clickedURL', sortable: false, title: 'clickedURL' },
+        { text: 'EmailClickedDateTime', value: 'emailClickedDateTime', sortable: false, title: 'EmailClickedDateTime' },
+        { text: 'PSkey', value: 'PSkey', sortable: false, title: 'PSkey' },
+        { text: 'EntryDate', value: 'entryDate', sortable: false, title: 'EntryDate' },
+        { text: 'EntryTime', value: 'entryTime', sortable: false, title: 'EntryTime' },
+      ],
+      itemsPerPage: 10,
+      pagination: {
+        rowsPerPage: 10,
+        sortBy: 'emailId',
+        descending: false,
+        page: 1,
+      },
     }
   },
   mounted() {
@@ -348,6 +433,10 @@ export default {
       }
 
       return filtered
+    },
+
+    filteredHeaders() {
+      return this.headers.filter(header => this.columnVisibility[header.value])
     },
   },
   methods: {

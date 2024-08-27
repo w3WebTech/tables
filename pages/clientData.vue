@@ -86,7 +86,7 @@
                     </td>
                   </tr>
                   <tr
-                    v-for="item in filteredDesserts"
+                    v-for="item in paginatedDesserts"
                     :key="item.dessert"
                     v-else
                   >
@@ -95,7 +95,7 @@
                     <td>{{ item.branchEmail }}</td>
                     <td>
                       <v-btn
-                        @click="deleteItem(item)"
+                        @click="showConfirmationDialog(item)"
                         class="ml-2"
                       >
                         <VIcon
@@ -107,6 +107,61 @@
                   </tr>
                 </tbody>
               </VTable>
+              <VRow class="d-flex justify-end align-center">
+                <VCol
+                  cols="auto"
+                  class="d-flex align-center"
+                >
+                  <span class="mr-2">Items per page:</span>
+                  <VSelect
+                    v-model="itemsPerPage"
+                    :items="perPageOptions"
+                  >
+                  </VSelect>
+                </VCol>
+                <VCol
+                  cols="auto"
+                  class="d-flex align-center"
+                >
+                  <VBtn
+                    @click="currentPage = 1"
+                    :disabled="currentPage === 1"
+                  >
+                    <VIcon
+                      icon="ri-skip-left-fill"
+                      size="16"
+                    ></VIcon>
+                  </VBtn>
+                  <VBtn
+                    @click="currentPage -= 1"
+                    :disabled="currentPage === 1"
+                  >
+                    <VIcon
+                      icon="ri-arrow-left-s-fill"
+                      size="16"
+                    ></VIcon>
+                  </VBtn>
+                  <span class="mx-2 font-weight-bold"> {{ currentPage }} of {{ totalPages }} </span>
+                  <VBtn
+                    @click="currentPage += 1"
+                    :disabled="currentPage === totalPages"
+                  >
+                    <VIcon
+                      icon="ri-arrow-right-s-fill"
+                      size="16"
+                    ></VIcon>
+                  </VBtn>
+                  <VBtn
+                    @click="currentPage = totalPages"
+                    :disabled="currentPage === totalPages"
+                  >
+                    <VIcon
+                      icon="ri-skip-right-fill"
+                      size="16"
+                    ></VIcon>
+                  </VBtn>
+                </VCol>
+              </VRow>
             </VCol>
           </VRow>
         </div>
@@ -182,9 +237,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+
 const isLoading = ref(false)
 const isDrawerOpen = ref(false) // Initially closed
 const createClient = ref({
@@ -260,6 +316,9 @@ onMounted(() => {
 // Data
 const search = ref('')
 const desserts = ref([])
+const currentPage = ref(1)
+const itemsPerPage = ref(10)
+const perPageOptions = [10, 25, 50, 100]
 
 // Computed property to filter the desserts array based on the search query
 const filteredDesserts = computed(() => {
@@ -276,13 +335,25 @@ const filteredDesserts = computed(() => {
   )
 })
 
+// Computed property for paginated desserts
+const paginatedDesserts = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage.value
+  const endIndex = startIndex + itemsPerPage.value
+  return filteredDesserts.value.slice(startIndex, endIndex)
+})
+
+// Computed property for total pages
+const totalPages = computed(() => {
+  return Math.ceil(filteredDesserts.value.length / itemsPerPage.value)
+})
+
 // Methods
-const deleteItem = itemToDelete => {
+const deleteItem = async itemToDelete => {
   try {
     const formData = new FormData()
     formData.append('authKey', '0a7cb27e52927eacabbb7ecc738b0fea50b3967945257c43a67eb753cb465bd0')
     formData.append('clientCode', itemToDelete.clientCode)
-    const response = axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-remove-client.php', formData)
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-remove-client.php', formData)
 
     console.log('Client deleted successfully:', response.data)
     Swal.fire({
@@ -301,6 +372,24 @@ const deleteItem = itemToDelete => {
   } finally {
     search.value = ''
     fetchData()
+  }
+}
+
+const showConfirmationDialog = async itemToDelete => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+
+    confirmButtonColor: '#03ad0f',
+    cancelButtonColor: '#f21621',
+    confirmButtonText: 'Yes, delete it!',
+    confirmButtonTextStyle: 'color: white',
+    cancelButtonColor: '#007bff',
+  })
+
+  if (result.isConfirmed) {
+    deleteItem(itemToDelete)
   }
 }
 
@@ -360,5 +449,8 @@ select {
 
 .cursor-pointer {
   cursor: pointer;
+}
+.swal2-confirm {
+  color: white; /* Sets the text color to white */
 }
 </style>
