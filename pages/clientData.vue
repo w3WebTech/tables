@@ -103,6 +103,15 @@
                           color="red"
                           size="22"
                       /></v-btn>
+                      <v-btn
+                        @click="editItem(item)"
+                        class="mx-5"
+                      >
+                        <VIcon
+                          icon="ri-pencil-fill"
+                          color="red"
+                          size="22"
+                      /></v-btn>
                     </td>
                   </tr>
                 </tbody>
@@ -231,6 +240,72 @@
             </VCardActions>
           </VCard>
         </VNavigationDrawer>
+        <VNavigationDrawer
+          v-model="isEditDrawerOpen"
+          temporary
+          right
+          v-if="isEditDrawerOpen == true"
+        >
+          <VCard class="h-screen">
+            <VCardTitle class="py-8"> EDIT CLIENT </VCardTitle>
+
+            <VCardSubtitle>
+              <VTextField
+                v-model="editClient.ClientCode"
+                label="Client Code *"
+                required
+                class="py-2"
+                :outline="false"
+              ></VTextField>
+
+              <VTextField
+                v-model="editClient.ClientEmailId"
+                label="Client Email"
+                required
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="editClient.ClientMobileno"
+                label="Client Mobile No"
+                required
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="editClient.BranchCode"
+                required
+                label="Branch Code"
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="editClient.BranchEmail"
+                label="Branch Email"
+                required
+                class="py-2"
+              ></VTextField>
+              <VTextField
+                v-model="editClient.BranchMobile"
+                label="Branch Mobile No"
+                required
+                class="py-2"
+              ></VTextField>
+            </VCardSubtitle>
+            <VCardActions class="py-8">
+              <v-spacer></v-spacer>
+
+              <v-btn
+                @click="addItem"
+                class="ml-2 text-white"
+                style="background-color: #2b58a3; border: 1px solid #2b58a3; color: rgb(252, 249, 249)"
+                >UPDATE</v-btn
+              >
+              <v-btn
+                @click="isDrawerOpen = false"
+                color="secondary border mr-3"
+                >CANCEL</v-btn
+              >
+            </VCardActions>
+          </VCard>
+        </VNavigationDrawer>
       </div>
     </VContainer>
   </div>
@@ -240,7 +315,7 @@
 import { computed, ref, onMounted } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
-
+const isEditDrawerOpen = ref(false)
 const isLoading = ref(false)
 const isDrawerOpen = ref(false) // Initially closed
 const createClient = ref({
@@ -251,9 +326,44 @@ const createClient = ref({
   BranchEmail: '',
   BranchMobile: '',
 })
-
+const editClient = ref({
+  ClientCode: '',
+  ClientEmailId: '',
+  ClientMobileno: '',
+  BranchCode: '',
+  BranchEmail: '',
+  BranchMobile: '',
+})
 const addItem = async () => {
-  if (createClient.value.ClientCode) {
+  debugger
+  if (isEditing.value) {
+    // Update existing item
+    const formData = new FormData()
+    formData.append('ClientCode', editClient.value.ClientCode)
+    formData.append('ClientEmailId', editClient.value.ClientEmailId)
+    formData.append('ClientMobileno', editClient.value.ClientMobileno)
+    formData.append('BranchCode', editClient.value.BranchCode)
+    formData.append('BranchEmail', editClient.value.BranchEmail)
+    formData.append('BranchMobile', editClient.value.BranchMobile)
+    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-client-entry.php', formData)
+
+    editClient.value = {
+      ClientCode: '',
+      ClientEmailId: '',
+      ClientMobileno: '',
+      BranchCode: '',
+      BranchEmail: '',
+      BranchMobile: '',
+    } // Reset form
+    isEditDrawerOpen.value = false
+    Swal.fire({
+      icon: 'success',
+      title: 'Client Updated',
+      text: 'The client has been updated successfully!',
+    })
+    fetchData()
+  } else {
+    // Create new item
     const formData = new FormData()
     formData.append('ClientCode', createClient.value.ClientCode)
     formData.append('ClientEmailId', createClient.value.ClientEmailId)
@@ -277,16 +387,23 @@ const addItem = async () => {
       title: 'Client Added',
       text: 'The client has been added successfully!',
     })
-    fetchData() // Close the drawer
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong while creating the client. Please try again.',
-    })
-    alert('Please fill out all fields.')
+    fetchData()
   }
 }
+const isEditing = ref(false)
+const editItem = item => {
+  isEditing.value = true
+  isEditDrawerOpen.value = true
+  editClient.value = {
+    ClientCode: item.clientCode,
+    ClientEmailId: item.clientEmailId,
+    ClientMobileno: item.clientMobileNo,
+    BranchCode: item.branchCode,
+    BranchEmail: item.branchEmail,
+    BranchMobile: item.branchMobileNo,
+  }
+}
+
 const fetchData = async () => {
   isLoading.value = true
   try {
@@ -302,6 +419,9 @@ const fetchData = async () => {
       clientCode: item.clientCode,
       branchCode: item.branchCode,
       branchEmail: item.branchEmail,
+      branchMobileNo: item.branchMobileNo,
+      clientEmailId: item.clientEmailId,
+      clientMobileNo: item.clientMobileNo,
     }))
   } catch (err) {
     console.error('Error:', err)

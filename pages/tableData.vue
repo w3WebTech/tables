@@ -372,7 +372,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import axios from 'axios'
-
+import { onMounted } from 'vue'
 const currentTab = ref(0)
 console.log(currentTab.value, 'currentT')
 const search = ref('')
@@ -473,8 +473,9 @@ const detailedView = async (clientCode, bulkRedId) => {
   } finally {
   }
 }
-
-fetchData()
+onMounted(() => {
+  fetchData()
+})
 
 watch([startDate, endDate], fetchData, { deep: true })
 const dateRange = ref('')

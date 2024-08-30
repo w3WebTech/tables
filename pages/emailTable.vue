@@ -205,131 +205,134 @@
             >
           </VCol>
         </VRow>
-        <VRow>
-          <VCol cols="12 my-4">
-            <v-data-table
-              :headers="filteredHeaders"
-              :items="filteredDesserts"
-              :items-per-page="itemsPerPage"
-              :pagination.sync="pagination"
-              :footer-props="{
-                itemsPerPageOptions: [10, 25, 50, 100],
-              }"
-            >
-              <template #item.clientCode="{ item }">
-                <span
-                  v-if="columnVisibility.clientCode"
-                  class=""
-                  >{{ item.clientCode }}</span
-                >
-              </template>
+        <div v-if="pending">Loading...</div>
+        <div v-else>
+          <VRow>
+            <VCol cols="12 my-4">
+              <v-data-table
+                :headers="filteredHeaders"
+                :items="filteredDesserts"
+                :items-per-page="itemsPerPage"
+                :pagination.sync="pagination"
+                :footer-props="{
+                  itemsPerPageOptions: [10, 25, 50, 100],
+                }"
+              >
+                <template #item.clientCode="{ item }">
+                  <span
+                    v-if="columnVisibility.clientCode"
+                    class=""
+                    >{{ item.clientCode }}</span
+                  >
+                </template>
 
-              <template #item.emailId="{ item }">
-                <span
-                  v-if="columnVisibility.emailId"
-                  class=""
-                  >{{ item.emailId }}</span
-                >
-              </template>
+                <template #item.emailId="{ item }">
+                  <span
+                    v-if="columnVisibility.emailId"
+                    class=""
+                    >{{ item.emailId }}</span
+                  >
+                </template>
 
-              <template #item.emailSubject="{ item }">
-                <span
-                  v-if="columnVisibility.emailSubject"
-                  class=""
-                  >{{ item.emailSubject }}</span
-                >
-              </template>
+                <template #item.emailSubject="{ item }">
+                  <span
+                    v-if="columnVisibility.emailSubject"
+                    class=""
+                    >{{ item.emailSubject }}</span
+                  >
+                </template>
 
-              <template #item.emailMsgId="{ item }">
-                <span
-                  v-if="columnVisibility.emailMsgId"
-                  class=""
-                  >{{ item.emailMsgId }}</span
-                >
-              </template>
+                <template #item.emailMsgId="{ item }">
+                  <span
+                    v-if="columnVisibility.emailMsgId"
+                    class=""
+                    >{{ item.emailMsgId }}</span
+                  >
+                </template>
 
-              <template #item.emailStatus="{ item }">
-                <span
-                  v-if="columnVisibility.emailStatus"
-                  class=""
-                  >{{ item.emailStatus }}</span
-                >
-              </template>
+                <template #item.emailStatus="{ item }">
+                  <span
+                    v-if="columnVisibility.emailStatus"
+                    class=""
+                    >{{ item.emailStatus }}</span
+                  >
+                </template>
 
-              <template #item.emailSentDateTime="{ item }">
-                <span
-                  v-if="columnVisibility.emailSentDateTime"
-                  class=""
-                  >{{ item.emailSentDateTime }}</span
-                >
-              </template>
+                <template #item.emailSentDateTime="{ item }">
+                  <span
+                    v-if="columnVisibility.emailSentDateTime"
+                    class=""
+                    >{{ item.emailSentDateTime }}</span
+                  >
+                </template>
 
-              <template #item.emailDeliveredDateTime="{ item }">
-                <span
-                  v-if="columnVisibility.emailDeliveredDateTime"
-                  class=""
-                  >{{ item.emailDeliveredDateTime }}</span
-                >
-              </template>
+                <template #item.emailDeliveredDateTime="{ item }">
+                  <span
+                    v-if="columnVisibility.emailDeliveredDateTime"
+                    class=""
+                    >{{ item.emailDeliveredDateTime }}</span
+                  >
+                </template>
 
-              <template #item.emailOpenedDateTime="{ item }">
-                <span
-                  v-if="columnVisibility.emailOpenedDateTime"
-                  class=""
-                  >{{ item.emailOpenedDateTime }}</span
-                >
-              </template>
+                <template #item.emailOpenedDateTime="{ item }">
+                  <span
+                    v-if="columnVisibility.emailOpenedDateTime"
+                    class=""
+                    >{{ item.emailOpenedDateTime }}</span
+                  >
+                </template>
 
-              <template #item.emailBouncedDateTime="{ item }">
-                <span
-                  v-if="columnVisibility.emailBouncedDateTime"
-                  class=""
-                  >{{ item.emailBouncedDateTime }}</span
-                >
-              </template>
+                <template #item.emailBouncedDateTime="{ item }">
+                  <span
+                    v-if="columnVisibility.emailBouncedDateTime"
+                    class=""
+                    >{{ item.emailBouncedDateTime }}</span
+                  >
+                </template>
 
-              <template #item.clickedURL="{ item }">
-                <span
-                  v-if="columnVisibility.clickedURL"
-                  class=""
-                  >{{ item.clickedURL }}</span
-                >
-              </template>
+                <template #item.clickedURL="{ item }">
+                  <span
+                    v-if="columnVisibility.clickedURL"
+                    class=""
+                    >{{ item.clickedURL }}</span
+                  >
+                </template>
 
-              <template #item.emailClickedDateTime="{ item }">
-                <span
-                  v-if="columnVisibility.emailClickedDateTime"
-                  class=""
-                  >{{ item.emailClickedDateTime }}</span
-                >
-              </template>
+                <template #item.emailClickedDateTime="{ item }">
+                  <span
+                    v-if="columnVisibility.emailClickedDateTime"
+                    class=""
+                    >{{ item.emailClickedDateTime }}</span
+                  >
+                </template>
 
-              <template #item.PSkey="{ item }">
-                <span
-                  v-if="columnVisibility.PSkey"
-                  class=""
-                  >{{ item.PSkey }}</span
-                >
-              </template>
+                <template #item.PSkey="{ item }">
+                  <span
+                    v-if="columnVisibility.PSkey"
+                    class=""
+                    >{{ item.PSkey }}</span
+                  >
+                </template>
 
-              <template #item.entryDate="{ item }">
-                <span
-                  v-if="columnVisibility.entryDate"
-                  class=""
-                  >{{ item.entryDate }}</span
-                >
-              </template>
+                <template #item.entryDate="{ item }">
+                  <span
+                    v-if="columnVisibility.entryDate"
+                    class=""
+                    >{{ item.entryDate }}</span
+                  >
+                </template>
 
-              <template #item.entryTime="{ item }">
-                <span
-                  v-if="columnVisibility.entryTime"
-                  class=""
-                  >{{ item.entryTime }}</span
-                >
-              </template>
-            </v-data-table>
-          </VCol>
-        </VRow>
+                <template #item.entryTime="{ item }">
+                  <span
+                    v-if="columnVisibility.entryTime"
+                    class=""
+                    >{{ item.entryTime }}</span
+                  >
+                </template>
+              </v-data-table>
+            </VCol>
+          </VRow>
+        </div>
       </div>
     </VContainer>
   </div>
@@ -344,6 +347,7 @@ export default {
       filteredDesserts: [],
       search: '',
       isOpen: false,
+      pending: false,
       columnVisibility: {
         clientCode: true,
         emailId: true,
@@ -511,6 +515,7 @@ export default {
     },
 
     fetchData() {
+      this.pending = true
       try {
         if (this.startDate && this.endDate) {
           const formData = new FormData()
@@ -524,14 +529,16 @@ export default {
             .then(response => {
               this.desserts = response.data.log // Update this.desserts with the response data
               console.log(response.data, 'response.data', this.desserts) // Should print the correct data
+              this.pending = false
             })
             .catch(error => {
               console.error('Error:', error)
+              this.pending = false
             })
         }
       } catch (err) {
         console.error('Error:', err)
-      } finally {
+        this.pending = false
       }
     },
   },

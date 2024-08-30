@@ -55,36 +55,39 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12 my-4">
-          <v-data-table
-            :headers="headers"
-            :items="paginatedDesserts"
-            :items-per-page="pagination.rowsPerPage"
-            :page.sync="pagination.page"
-            :total-items="filteredDesserts.length"
-            :footer-props="{
-              itemsPerPageOptions: [10, 25, 50, 100],
-              showFirstLastPage: true,
-              showCurrentPage: true,
-            }"
-            @update:items-per-page="updateItemsPerPage"
-            @update:page="updatePage"
-          >
-            <!-- Row templates for each column -->
-            <template v-slot:item.userCode="{ item }">
-              <td v-if="columnVisibility.userCode">{{ item.userCode }}</td>
-            </template>
-            <template v-slot:item.userMobile="{ item }">
-              <td v-if="columnVisibility.userMobile">{{ item.userMobile }}</td>
-            </template>
-            <template v-slot:item.from="{ item }">
-              <td v-if="columnVisibility.from">{{ item.from }}</td>
-            </template>
-            <!-- Add more columns as needed -->
-          </v-data-table>
-        </v-col>
-      </v-row>
+      <div v-if="pending">Loading...</div>
+      <div v-else>
+        <v-row>
+          <v-col cols="12 my-4">
+            <v-data-table
+              :headers="headers"
+              :items="paginatedDesserts"
+              :items-per-page="pagination.rowsPerPage"
+              :page.sync="pagination.page"
+              :total-items="filteredDesserts.length"
+              :footer-props="{
+                itemsPerPageOptions: [10, 25, 50, 100],
+                showFirstLastPage: true,
+                showCurrentPage: true,
+              }"
+              @update:items-per-page="updateItemsPerPage"
+              @update:page="updatePage"
+            >
+              <!-- Row templates for each column -->
+              <template v-slot:item.userCode="{ item }">
+                <td v-if="columnVisibility.userCode">{{ item.userCode }}</td>
+              </template>
+              <template v-slot:item.userMobile="{ item }">
+                <td v-if="columnVisibility.userMobile">{{ item.userMobile }}</td>
+              </template>
+              <template v-slot:item.from="{ item }">
+                <td v-if="columnVisibility.from">{{ item.from }}</td>
+              </template>
+              <!-- Add more columns as needed -->
+            </v-data-table>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
   </div>
 </template>
@@ -97,6 +100,7 @@ export default {
     return {
       search: '',
       isOpen: false,
+      pending: false,
       columnVisibility: {
         userCode: true,
         userMobile: true,
@@ -179,6 +183,7 @@ export default {
       URL.revokeObjectURL(link.href)
     },
     fetchData() {
+      this.pending = true
       if (this.startDate && this.endDate) {
         const formData = new FormData()
         formData.append('from', this.startDate)
@@ -189,10 +194,13 @@ export default {
         axios
           .post('https://g1.gwcindia.in/powerstocks/log-wa-email.php', formData)
           .then(response => {
-            this.desserts1 = response.data.log
+            this.desserts1 = response.data.log // Update this.desserts with the response data
+            console.log(response.data, 'response.data', this.desserts1) // Should print the correct data
+            this.pending = false
           })
           .catch(error => {
             console.error('Error:', error)
+            this.pending = false
           })
       }
     },
