@@ -345,6 +345,7 @@ const addItem = async () => {
     formData.append('BranchCode', editClient.value.BranchCode)
     formData.append('BranchEmail', editClient.value.BranchEmail)
     formData.append('BranchMobile', editClient.value.BranchMobile)
+    formData.append('updateClient', editClient.value.ClientCode)
     const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-client-entry.php', formData)
 
     editClient.value = {
@@ -371,6 +372,7 @@ const addItem = async () => {
     formData.append('BranchCode', createClient.value.BranchCode)
     formData.append('BranchEmail', createClient.value.BranchEmail)
     formData.append('BranchMobile', createClient.value.BranchMobile)
+
     const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerstocks-client-entry.php', formData)
 
     createClient.value = {
