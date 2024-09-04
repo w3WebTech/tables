@@ -385,8 +385,11 @@ const headers = [
   { key: 'plan', title: 'Plan' },
   { key: 'view_user', title: 'View' },
 ]
-const startDate = ref(new Date().toISOString().substr(0, 10)) // Set start date to current date
-const endDate = ref('')
+const today = new Date()
+const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000) // subtract 1 day from today
+
+const startDate = ref(yesterday.toISOString().substr(0, 10))
+const endDate = ref(today.toISOString().substr(0, 10))
 
 const productdetails = ref([])
 const selectedUser = ref({
@@ -428,22 +431,23 @@ const toggleColumnVisibility = column => {
 }
 const fetchData = async () => {
   pending.value = true
+  if (startDate.value && endDate.value) {
+    try {
+      const formData = new FormData()
 
-  try {
-    const data = {
-      from: startDate.value,
-      to: endDate.value,
+      formData.append('from', startDate.value)
+      formData.append('to', endDate.value)
+
+      const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerStocksView-v2.php', formData)
+
+      // Debug after successful response
+      console.log(response.data, 'response.data') // Ensure this logs the expected data structure
+      productdetails.value = response.data
+    } catch (err) {
+      console.error('Error:', err)
+    } finally {
+      pending.value = false
     }
-
-    const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerStocksView-v2.php', data)
-
-    // Debug after successful response
-    console.log(response.data, 'response.data') // Ensure this logs the expected data structure
-    productdetails.value = response.data
-  } catch (err) {
-    console.error('Error:', err)
-  } finally {
-    pending.value = false
   }
 }
 const detailedView = async (clientCode, bulkRedId) => {
