@@ -9,11 +9,11 @@ const routeCheck = () => {
   const password = userStore.password
   console.log(userId, password, 'password')
 
-  if (userId == '' || password == '' || userId == undefined || password == undefined) {
-    alert('Login Credentials Not Available')
-  } else {
+  if (userId != '' && password != '' && userId != undefined && password != undefined) {
     userStore.removeUser()
     router.push('/login')
+  } else {
+    alert('Login Credentials Not Available')
   }
 }
 </script>
