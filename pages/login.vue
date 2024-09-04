@@ -172,7 +172,7 @@ const handleLogin = async () => {
   debugger
   const response = await axios.get('https://api.ipify.org?format=json')
   console.log(response.data.ip, response.data, 'response.data.ip')
-  const clientIp = '157.49.96.161'
+  const clientIp = response.data.ip
   if (allowedIps.includes(clientIp)) {
     const enteredEmail = form.value.email
     const enteredPassword = form.value.password
