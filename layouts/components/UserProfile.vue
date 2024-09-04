@@ -4,6 +4,7 @@ import { userDataStore } from '~/stores/tableData'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const userStore = userDataStore()
+const userName = userStore.userId
 const routeCheck = () => {
   const userId = userStore.userId
   const password = userStore.password
@@ -63,7 +64,7 @@ const routeCheck = () => {
               </VListItemAction>
             </template>
 
-            <VListItemTitle class="font-weight-semibold"> John Doe </VListItemTitle>
+            <VListItemTitle class="font-weight-semibold"> {{ userName ? userName : 'UNKNOWN' }} </VListItemTitle>
             <VListItemSubtitle>Admin</VListItemSubtitle>
           </VListItem>
           <VDivider class="my-2" />
