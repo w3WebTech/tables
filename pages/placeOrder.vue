@@ -75,47 +75,38 @@
             >
               <template v-slot:item.clientName="{ item }">
                 <td style="white-space: nowrap">{{ item.clientName }}</td>
-              </template></v-data-table
-            ></v-col
-          ></v-row
-        >
-      </div></v-container
-    >
-  </div>
-</template>
+              </template>
               <template v-slot:item.actions="{ item }">
-  <td class="flex justify-start">
-    <div>
-      <v-btn
-        @click="showConfirmationDialog(item)"
-        class="ml-2"
-      >
-        <VIcon
-          icon="ri-shopping-cart-line"
-          color="red"
-          size="22"
-      /></v-btn>
-    </div>
-    <div>
-      <v-btn
-        class="mx-5"
-        disabled
-      >
-        <VIcon
-          icon="ri-eye-2-line"
-          color="red"
-          size="22"
-      /></v-btn>
-    </div>
-  </td>
-</template>
-            </v-data-table>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container>
+                <td class="flex justify-start">
+                  <div>
+                    <v-btn
+                      @click="showConfirmationDialog(item)"
+                      class="ml-2"
+                    >
+                      <VIcon
+                        icon="ri-shopping-cart-line"
+                        color="red"
+                        size="22"
+                    /></v-btn>
+                  </div>
+                  <div>
+                    <v-btn
+                      class="mx-5"
+                      disabled
+                    >
+                      <VIcon
+                        icon="ri-eye-2-line"
+                        color="red"
+                        size="22"
+                    /></v-btn>
+                  </div>
+                </td> </template></v-data-table></v-col
+        ></v-row></div
+    ></v-container>
   </div>
 </template>
+             
+          
 
 <script>
 import axios from 'axios'
