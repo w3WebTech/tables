@@ -139,7 +139,7 @@
                   </td>
                   <td v-if="columnVisibility.view_user">
                     <v-btn
-                      class="bg-logcolor w-10"
+                      class="bg-logcolor w-2 px-2"
                       @click="
                         Routeto(
                           item.ClientId,
@@ -148,6 +148,8 @@
                           item.emailId,
                           item.panNo,
                           item.branchCode,
+                          item.mobileNo,
+                          item.emailId,
                         )
                       "
                     >
@@ -175,16 +177,26 @@
           <div class="bg-white p-6">
             <div class="flex justify-between items-center mb-4">
               <div>
-                <p class="text-gray-600 text-sm">Name: {{ selectedUser.clientName }}</p>
-                <p class="text-gray-600 text-sm">M: {{ selectedUser.clientName }}</p>
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">NAME:</span> {{ selectedUser.clientName }}
+                </p>
+                <p class="text-gray-600 text-sm"><span class="font-semibold">M:</span> {{ selectedUser.mobileNo }}</p>
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">CLIENTCODE: </span>{{ selectedUser.clientCode }}
+                </p>
               </div>
-              <div>
-                <p class="text-gray-600 text-sm">PAN: {{ selectedUser.panNo }}</p>
-                <p class="text-gray-600 text-sm">E: {{ selectedUser.clientName }}</p>
+              <div class="pb-10">
+                <p class="text-gray-600 text-sm"><span class="font-semibold">PAN:</span>{{ selectedUser.panNo }}</p>
+                <p class="text-gray-600 text-sm"><span class="font-semibold">E: </span>{{ selectedUser.emailId }}</p>
               </div>
-              <div>
-                <p class="text-gray-600 text-sm">Branch: {{ selectedUser.branchCode }}</p>
-                <p class="text-gray-600 text-sm">Branch Email: {{ selectedUser.email }}</p>
+              <div class="pb-10">
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">BRANCH:</span
+                  >{{ selectedUser.branchCode ? selectedUser.branchCode : 'Not Available' }}
+                </p>
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">BRANCH EMAIL:</span>{{ selectedUser.email }}
+                </p>
               </div>
             </div>
           </div>
@@ -270,13 +282,21 @@
                 <div class="mb-4">
                   <p class="text-gray-600 text-sm">1, Sent an whatsapp to Customer mobile no</p>
                   <p class="text-gray-600 text-sm">
-                    {{ info.recommentation_notify.waNotifyLog.noteWAmessageSentTime }}
+                    {{
+                      info.recommentation_notify.waNotifyLog.noteWAmessageSentTime
+                        ? info.recommentation_notify.waNotifyLog.noteWAmessageSentTime
+                        : 'No Data Available'
+                    }}
                   </p>
                 </div>
                 <div class="mb-4">
                   <p class="text-gray-600 text-sm">2, Delivered Whatsapp to Customer mobile no</p>
                   <p class="text-gray-600 text-sm">
-                    {{ info.recommentation_notify.waNotifyLog.noteWAmessageDeliveredTime }}
+                    {{
+                      info.recommentation_notify.waNotifyLog.noteWAmessageDeliveredTime
+                        ? info.recommentation_notify.waNotifyLog.noteWAmessageDeliveredTime
+                        : 'No Data Available'
+                    }}
                   </p>
                 </div>
               </div>
@@ -397,6 +417,9 @@ const selectedUser = ref({
   email: '',
   panNo: '',
   branchCode: '',
+  mobileNo: '',
+  emailId: '',
+  clientCode: '',
 })
 const pending = ref(false)
 const info = ref({})
@@ -407,13 +430,17 @@ function formatDateToISO(date) {
 
   return `${yyyy}-${mm}-${dd}`
 }
-const Routeto = (clientCode, bulkRedId, clientName, email, panNo, branchCode) => {
+const Routeto = (clientCode, bulkRedId, clientName, email, panNo, branchCode, mobileNo, emailId) => {
   isDrawerOpen.value = true
   detailedView(clientCode, bulkRedId)
   selectedUser.value.email = email
   selectedUser.value.clientName = clientName
   selectedUser.value.panNo = panNo
   selectedUser.value.branchCode = branchCode
+  selectedUser.value.mobileNo = mobileNo
+  selectedUser.value.emailId = emailId
+  selectedUser.value.clientCode = clientCode
+  console.log('ff')
   console.log(clientCode, selectedUser, 'reqdata')
 }
 const selectdate = ([start, end]) => {
@@ -440,7 +467,6 @@ const fetchData = async () => {
 
       const response = await axios.post('https://g1.gwcindia.in/powerstocks/powerStocksView-v2.php', formData)
 
-      // Debug after successful response
       console.log(response.data, 'response.data') // Ensure this logs the expected data structure
       productdetails.value = response.data
     } catch (err) {
