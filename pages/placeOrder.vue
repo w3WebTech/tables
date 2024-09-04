@@ -175,8 +175,8 @@ export default {
     },
   },
   mounted() {
-    const userId = userStore.userId
-    const password = userStore.password
+    const userId = userStore.userId || ''
+    const password = userStore.password || ''
     if (userId == null || userId == '' || userId == undefined) {
       router.push('/login')
     }
@@ -308,6 +308,4 @@ export default {
 }
 </script>
 
-<style scoped>
-/* Add any additional styling needed */
-</style>
+
