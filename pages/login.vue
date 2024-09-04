@@ -33,7 +33,13 @@
                 type="email"
               />
             </VCol>
-
+            <VCol cols="12">
+              <VTextField
+                v-model="userIp"
+                label="Ip Address"
+                type="TEXT"
+              />
+            </VCol>
             <!-- password -->
             <VCol cols="12">
               <VTextField
@@ -143,6 +149,7 @@ import { userDataStore } from '~/stores/tableData'
 const userStore = userDataStore()
 const router = useRouter()
 let allowedIps = ref([])
+let userIp = ref('')
 let userIdArray = ref([])
 const isValidEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -156,12 +163,16 @@ const isValidPassword = (password: string) => {
 const isValidForm = computed(() => {
   return isValidEmail(form.value.email) && isValidPassword(form.value.password)
 })
-
+onMounted(async () => {
+  const response = await axios.get('https://api.ipify.org?format=json')
+  userIp.value = response.data.ip
+  console.log(userIp.value, 'userIp')
+})
 const handleLogin = async () => {
   debugger
   const response = await axios.get('https://api.ipify.org?format=json')
   console.log(response.data.ip, response.data, 'response.data.ip')
-  const clientIp = response.data.ip
+  const clientIp = '157.49.96.161'
   if (allowedIps.includes(clientIp)) {
     const enteredEmail = form.value.email
     const enteredPassword = form.value.password

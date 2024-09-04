@@ -40,14 +40,35 @@
               <VTable>
                 <thead>
                   <tr>
-                    <th class="text-uppercase">Client Code</th>
-                    <th class="text-uppercase">Branch Code</th>
-                    <th class="text-uppercase">Branch Email</th>
+                    <th class="text-uppercase">ClientCode</th>
+                    <th class="text-uppercase">BranchCode</th>
+                    <th class="text-uppercase">ClientEmail</th>
+                    <!-- Add this line -->
+                    <th class="text-uppercase">ClientMobileNo</th>
+                    <th class="text-uppercase">BranchEmail</th>
                     <th class="text-uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-if="isLoading">
+                    <td>
+                      <div class="animate-pulse">
+                        <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="animate-pulse">
+                        <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-300 mb-8 rounded"></div>
+                        <div class="h-8 bg-gray-200 mb-8 rounded"></div>
+                      </div>
+                    </td>
                     <td>
                       <div class="animate-pulse">
                         <div class="h-8 bg-gray-200 mt-3 mb-8 rounded"></div>
@@ -92,26 +113,33 @@
                   >
                     <td>{{ item.clientCode }}</td>
                     <td>{{ item.branchCode }}</td>
+                    <td>{{ item.clientEmailId }}</td>
+                    <!-- Add this line -->
+                    <td>{{ item.clientMobileNo }}</td>
                     <td>{{ item.branchEmail }}</td>
-                    <td>
-                      <v-btn
-                        @click="showConfirmationDialog(item)"
-                        class="ml-2"
-                      >
-                        <VIcon
-                          icon="ri-delete-bin-fill"
-                          color="red"
-                          size="22"
-                      /></v-btn>
-                      <v-btn
-                        @click="editItem(item)"
-                        class="mx-5"
-                      >
-                        <VIcon
-                          icon="ri-pencil-fill"
-                          color="red"
-                          size="22"
-                      /></v-btn>
+                    <td class="flex justify-start">
+                      <div>
+                        <v-btn
+                          @click="showConfirmationDialog(item)"
+                          class="ml-2"
+                        >
+                          <VIcon
+                            icon="ri-delete-bin-fill"
+                            color="red"
+                            size="22"
+                        /></v-btn>
+                      </div>
+                      <div>
+                        <v-btn
+                          @click="editItem(item)"
+                          class="mx-5"
+                        >
+                          <VIcon
+                            icon="ri-pencil-fill"
+                            color="red"
+                            size="22"
+                        /></v-btn>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -316,6 +344,9 @@ import { computed, ref, onMounted } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import { userDataStore } from '~/stores/tableData'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const userStore = userDataStore()
 const isEditDrawerOpen = ref(false)
 const isLoading = ref(false)
 const isDrawerOpen = ref(false) // Initially closed
@@ -433,10 +464,13 @@ const fetchData = async () => {
     isLoading.value = false
   }
 }
-const userStore = userDataStore()
+
 onMounted(() => {
   const userId = userStore.userId
   const password = userStore.password
+  if (userId == null || userId == '' || userId == undefined) {
+    router.push('/login')
+  }
   console.log(userId, password, 'password')
   fetchData()
 })
@@ -458,6 +492,8 @@ const filteredDesserts = computed(() => {
     item =>
       item.clientCode.toLowerCase().includes(query) ||
       item.branchCode.toLowerCase().includes(query) ||
+      item.clientEmailId.toLowerCase().includes(query) ||
+      item.clientMobileNo.toLowerCase().includes(query) ||
       item.branchEmail.toLowerCase().includes(query),
   )
 })

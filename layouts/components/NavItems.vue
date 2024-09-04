@@ -44,6 +44,13 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       to: '/emailTable',
     }"
   />
+  <VerticalNavLink
+    :item="{
+      title: 'Place Order',
+      icon: 'ri-shopping-cart-2-line',
+      to: '/placeOrder',
+    }"
+  />
 </template>
 
 

@@ -393,6 +393,10 @@
 import { computed, ref } from 'vue'
 import axios from 'axios'
 import { onMounted } from 'vue'
+import { userDataStore } from '~/stores/tableData'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const userStore = userDataStore()
 const currentTab = ref(0)
 console.log(currentTab.value, 'currentT')
 const search = ref('')
@@ -504,6 +508,12 @@ const detailedView = async (clientCode, bulkRedId) => {
   }
 }
 onMounted(() => {
+  const userId = userStore.userId
+  const password = userStore.password
+  if (userId == null || userId == '' || userId == undefined) {
+    router.push('/login')
+  }
+  console.log(userId, password, 'password')
   fetchData()
 })
 
