@@ -139,6 +139,8 @@ import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
+import { userDataStore } from '~/stores/tableData'
+const userStore = userDataStore()
 const router = useRouter()
 let allowedIps = ref([])
 let userIdArray = ref([])
@@ -159,7 +161,7 @@ const handleLogin = async () => {
   debugger
   const response = await axios.get('https://api.ipify.org?format=json')
   console.log(response.data.ip, response.data, 'response.data.ip')
-  const clientIp = response.data.ip
+  const clientIp = '27.60.167.129'
   if (allowedIps.includes(clientIp)) {
     const enteredEmail = form.value.email
     const enteredPassword = form.value.password
@@ -167,6 +169,8 @@ const handleLogin = async () => {
     const foundUser = userIdArray.find(user => user.eMail === enteredEmail && user.passWord === enteredPassword)
 
     if (foundUser) {
+      userStore.setUser(enteredEmail, enteredPassword)
+
       router.push('/tableData')
     } else {
       alert('Invalid email or password')

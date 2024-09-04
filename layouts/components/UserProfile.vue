@@ -1,5 +1,21 @@
 <script setup lang="ts">
 import avatar1 from '@images/avatars/avatar-1.png'
+import { userDataStore } from '~/stores/tableData'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const userStore = userDataStore()
+const routeCheck = () => {
+  const userId = userStore.userId
+  const password = userStore.password
+  console.log(userId, password, 'password')
+
+  if (userId == '' || password == '' || userId == undefined || password == undefined) {
+    alert('Login Credentials Not Available')
+  } else {
+    userStore.removeUser()
+    router.push('/login')
+  }
+}
 </script>
 
 <template>
@@ -53,7 +69,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem @click="routeCheck">
             <template #prepend>
               <VIcon
                 class="me-2"

@@ -315,6 +315,7 @@
 import { computed, ref, onMounted } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { userDataStore } from '~/stores/tableData'
 const isEditDrawerOpen = ref(false)
 const isLoading = ref(false)
 const isDrawerOpen = ref(false) // Initially closed
@@ -326,6 +327,7 @@ const createClient = ref({
   BranchEmail: '',
   BranchMobile: '',
 })
+
 const editClient = ref({
   ClientCode: '',
   ClientEmailId: '',
@@ -431,8 +433,11 @@ const fetchData = async () => {
     isLoading.value = false
   }
 }
-
+const userStore = userDataStore()
 onMounted(() => {
+  const userId = userStore.userId
+  const password = userStore.password
+  console.log(userId, password, 'password')
   fetchData()
 })
 // Data
