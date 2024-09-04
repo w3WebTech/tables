@@ -75,33 +75,40 @@
             >
               <template v-slot:item.clientName="{ item }">
                 <td style="white-space: nowrap">{{ item.clientName }}</td>
-              </template>
+              </template></v-data-table
+            ></v-col
+          ></v-row
+        >
+      </div></v-container
+    >
+  </div>
+</template>
               <template v-slot:item.actions="{ item }">
-                <td class="flex justify-start">
-                  <div>
-                    <v-btn
-                      @click="showConfirmationDialog(item)"
-                      class="ml-2"
-                    >
-                      <VIcon
-                        icon="ri-shopping-cart-line"
-                        color="red"
-                        size="22"
-                    /></v-btn>
-                  </div>
-                  <div>
-                    <v-btn
-                      class="mx-5"
-                      disabled
-                    >
-                      <VIcon
-                        icon="ri-eye-2-line"
-                        color="red"
-                        size="22"
-                    /></v-btn>
-                  </div>
-                </td>
-              </template>
+  <td class="flex justify-start">
+    <div>
+      <v-btn
+        @click="showConfirmationDialog(item)"
+        class="ml-2"
+      >
+        <VIcon
+          icon="ri-shopping-cart-line"
+          color="red"
+          size="22"
+      /></v-btn>
+    </div>
+    <div>
+      <v-btn
+        class="mx-5"
+        disabled
+      >
+        <VIcon
+          icon="ri-eye-2-line"
+          color="red"
+          size="22"
+      /></v-btn>
+    </div>
+  </td>
+</template>
             </v-data-table>
           </v-col>
         </v-row>
@@ -126,7 +133,6 @@ export default {
       columnVisibility: {
         ClientId: true,
         rowId: true,
-
         clientName: true,
         mobileNo: true,
         receivedDate: true,
@@ -134,7 +140,7 @@ export default {
         plan: true,
         Actions: true,
       },
-      desserts1: [],
+      desserts1: [], // Ensure this is an array
       pagination: {
         page: 1,
         rowsPerPage: 10,
@@ -145,24 +151,24 @@ export default {
       endDate: '',
     }
   },
+
   computed: {
     filteredDesserts() {
-      debugger
-      return this.desserts1.filter(item => {
-        return Object.keys(item).some(key => {
-          return item[key] && item[key].toString().toLowerCase().includes(this.search.toLowerCase())
-        })
-      })
+      return this.desserts1
+        ? this.desserts1.filter(item => {
+            return Object.keys(item).some(key => {
+              return item[key] && item[key].toString().toLowerCase().includes(this.search.toLowerCase())
+            })
+          })
+        : []
     },
     paginatedDesserts() {
-      debugger
+      if (!this.filteredDesserts) return []
       const start = (this.pagination.page - 1) * this.pagination.rowsPerPage
       return this.filteredDesserts.slice(start, start + this.pagination.rowsPerPage)
     },
     headers() {
-      if (!this.desserts1 || this.desserts1.length === 0) {
-        return []
-      }
+      if (!this.desserts1 || this.desserts1.length === 0) return []
       const columns = Object.keys(this.desserts1[0])
         .filter(key => this.columnVisibility[key] || this.columnVisibility[key.toLowerCase()])
         .map(key => ({
