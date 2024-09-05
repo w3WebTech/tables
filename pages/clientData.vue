@@ -130,7 +130,7 @@
                         /></v-btn>
                       </div>
                       <div>
-                        <v-btn
+                        <!-- <v-btn
                           @click="editItem(item)"
                           class="mx-5"
                         >
@@ -138,7 +138,7 @@
                             icon="ri-pencil-fill"
                             color="red"
                             size="22"
-                        /></v-btn>
+                        /></v-btn> -->
                       </div>
                     </td>
                   </tr>
@@ -327,7 +327,7 @@
                 >UPDATE</v-btn
               >
               <v-btn
-                @click="isDrawerOpen = false"
+                @click="isEditDrawerOpen = false"
                 color="secondary border mr-3"
                 >CANCEL</v-btn
               >

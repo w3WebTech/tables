@@ -15,6 +15,9 @@ onMounted(() => {
   console.log(userId, password, 'password')
   fetchData()
 })
+const routeto = () => {
+  router.push('/clientData')
+}
 const fetchData = async () => {
   try {
     const formData = new FormData()
@@ -41,7 +44,12 @@ const fetchData = async () => {
       <div class="text-body-1 mb-2">
         Total {{ totalClient }} Clients <span class="text-high-emphasis">😎</span> this year
       </div>
-      <VBtn size="small"> View Clients </VBtn>
+      <VBtn
+        size="small"
+        @click="routeto"
+      >
+        View Clients
+      </VBtn>
     </VCardText>
 
     <!-- Trophy -->

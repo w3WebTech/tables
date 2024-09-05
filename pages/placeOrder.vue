@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-container class="w-100 h-600">
+    <v-container
+      class="w-100 h-600"
+      :style="{ overflow: this.isEditDrawerOpen == true ? 'hidden' : 'scroll' }"
+    >
       <v-row no-gutters>
         <v-col
           cols="2"
@@ -101,8 +104,23 @@
                     /></v-btn>
                   </div>
                 </td> </template></v-data-table></v-col
-        ></v-row></div
-    ></v-container>
+        ></v-row>
+      </div>
+      <VNavigationDrawer
+        v-model="isEditDrawerOpen"
+        temporary
+        right
+        v-if="isEditDrawerOpen == true"
+        :style="{ overflow: 'scroll' }"
+      >
+        <VCard class="">
+          <VCardTitle class="py-5"> Order Data </VCardTitle>
+          <div class="px-3">
+            {{ this.orderResponse }}
+          </div>
+        </VCard>
+      </VNavigationDrawer>
+    </v-container>
   </div>
 </template>
              
@@ -120,6 +138,7 @@ export default {
     return {
       search: '',
       isOpen: false,
+      isEditDrawerOpen: false,
       pending: false,
       columnVisibility: {
         ClientId: true,
@@ -131,6 +150,7 @@ export default {
         plan: true,
         Actions: true,
       },
+      orderResponse: [],
       desserts1: [], // Ensure this is an array
       pagination: {
         page: 1,
@@ -257,33 +277,35 @@ export default {
         .post('https://g1.gwcindia.in/powerstocks/demo-ps-place-order.php', params, config)
         .then(response => {
           console.log(response.data, 'response.data', this.desserts1) // Should print the correct data
-          Swal.fire({
-            icon: 'success',
-            title: 'Order Placed',
-            text: 'Order Placed successfully!',
-          })
+          this.orderResponse = response.data
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Order Placed',
+          //   text: 'Order Placed successfully!',
+          // })
         })
         .catch(error => {
           console.error('Error:', error)
         })
     },
     async showConfirmationDialog(data) {
-      debugger
-      let result = await Swal.fire({
-        title: 'Are you sure to place order?',
-        text: "You won't be able to revert this order!",
-        icon: 'warning',
+      // debugger
+      // let result = await Swal.fire({
+      //   title: 'Are you sure to place order?',
+      //   text: "You won't be able to revert this order!",
+      //   icon: 'warning',
 
-        confirmButtonColor: '#03ad0f',
-        cancelButtonColor: '#f21621',
-        confirmButtonText: 'Place Order!',
-        confirmButtonTextStyle: 'color: white',
-        cancelButtonColor: '#007bff',
-      })
+      //   confirmButtonColor: '#03ad0f',
+      //   cancelButtonColor: '#f21621',
+      //   confirmButtonText: 'Place Order!',
+      //   confirmButtonTextStyle: 'color: white',
+      //   cancelButtonColor: '#007bff',
+      // })
 
-      if (result.isConfirmed) {
-        this.orderData(data)
-      }
+      // if (result.isConfirmed) {
+      this.orderData(data)
+      this.isEditDrawerOpen = true
+      // }
     },
     formatDate(date) {
       return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`
