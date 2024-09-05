@@ -111,7 +111,7 @@ const progressData = async () => {
 </script>
 
 <template>
-  <VCard title="Our Statistics">
+  <VCard title="Today Statistics">
     <template #subtitle>
       <p class="text-body-1 mb-0">
         <span class="d-inline-block font-weight-medium text-high-emphasis">Empowering Your Financial Future</span>
