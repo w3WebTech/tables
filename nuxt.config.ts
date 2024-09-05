@@ -6,8 +6,8 @@ import svgLoader from 'vite-svg-loader';
 export default defineNuxtConfig({
   app: {
     head: {
-      titleTemplate: '%s - NuxtJS Admin Template',
-      title: 'Materio',
+      titleTemplate: '%s - Admin',
+      title: 'PowerStocks',
 
       link: [{
         rel: 'icon',

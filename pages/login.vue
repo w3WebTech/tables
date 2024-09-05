@@ -33,13 +33,7 @@
                 type="email"
               />
             </VCol>
-            <VCol cols="12">
-              <VTextField
-                v-model="userIp"
-                label="Ip Address"
-                type="TEXT"
-              />
-            </VCol>
+
             <!-- password -->
             <VCol cols="12">
               <VTextField
@@ -75,6 +69,15 @@
               >
                 Login
               </VBtn>
+            </VCol>
+            <VCol cols="12">
+              <div
+                block
+                type="TEXT"
+                class="py-2 border border-[#92b9b9] text-black flex justify-center rounded-md"
+              >
+                IP Address : {{ userIp }}
+              </div>
             </VCol>
 
             <!-- create account -->
