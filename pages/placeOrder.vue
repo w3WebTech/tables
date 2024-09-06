@@ -114,9 +114,49 @@
         :style="{ overflow: 'scroll' }"
       >
         <VCard class="">
-          <VCardTitle class="py-5"> Order Data </VCardTitle>
-          <div class="px-3">
+          <VCardTitle class="py-2 px-5"> Order Data </VCardTitle>
+          <!-- <div class="px-3">
             {{ this.orderResponse }}
+          </div> -->
+          <div class="p-5">
+            <VTable class="border">
+              <thead>
+                <tr>
+                  <th class="text-uppercase">Stock Symbol</th>
+                  <th class="text-uppercase">Quantity</th>
+                  <th class="text-uppercase">Buy/Sell</th>
+                  <th class="text-uppercase">Plan</th>
+                  <th class="text-uppercase">Order Info</th>
+                  <th class="text-uppercase">Place Order Info</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  v-for="item in this.orderResponse.stockList"
+                  :key="item.stockName"
+                >
+                  <td>
+                    {{ item.stockName }}
+                  </td>
+                  <td>
+                    {{ item.quantity }}
+                  </td>
+                  <td>
+                    {{ item.buySell }}
+                  </td>
+                  <td>
+                    {{ item.plan }}
+                  </td>
+                  <td>
+                    {{ item.orderInfo }}
+                  </td>
+                  <td>
+                    {{ item.placeOrderInfo }}
+                  </td>
+                </tr>
+              </tbody>
+            </VTable>
           </div>
         </VCard>
       </VNavigationDrawer>
@@ -326,5 +366,21 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.v-navigation-drawer {
+  /* Set the default position */
+  right: 0 !important;
+  left: auto !important;
+  position: fixed !important;
+  /* Optional: adjust width as needed */
+  width: 70% !important;
+  transition: transform 2s ease-in-out;
+  transform: translateX(100%);
+}
+.v-navigation-drawer.v-navigation-drawer--open {
+  /* When the drawer is open, move it to the left */
+  transform: translateX(0);
+}
+</style>
 
 
