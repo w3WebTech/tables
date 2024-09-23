@@ -314,7 +314,7 @@ export default {
       }
 
       axios
-        .post('https://g1.gwcindia.in/powerstocks/demo-ps-place-order.php', params, config)
+        .post('https://g1.gwcindia.in/powerstocks/ps-place-order.php', params, config)
         .then(response => {
           console.log(response.data, 'response.data', this.desserts1) // Should print the correct data
           this.orderResponse = response.data
