@@ -133,7 +133,7 @@
 
               <tbody>
                 <tr
-                  v-for="item in this.orderResponse.stockList"
+                  v-for="item in this.orderResponse.psOrderData"
                   :key="item.stockName"
                 >
                   <td>
