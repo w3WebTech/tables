@@ -95,7 +95,7 @@
                   <div>
                     <v-btn
                       class="mx-5"
-                      disabled
+                      @click="enableNav(item)"
                     >
                       <VIcon
                         icon="ri-eye-2-line"
@@ -125,9 +125,8 @@
                   <th class="text-uppercase">Stock Symbol</th>
                   <th class="text-uppercase">Quantity</th>
                   <th class="text-uppercase">Buy/Sell</th>
-                  <th class="text-uppercase">Plan</th>
+
                   <th class="text-uppercase">Order Info</th>
-                  <th class="text-uppercase">Place Order Info</th>
                 </tr>
               </thead>
 
@@ -146,19 +145,190 @@
                     {{ item.buySell }}
                   </td>
                   <td>
-                    {{ item.plan }}
-                  </td>
-                  <td>
-                    {{ item.orderInfo }}
-                  </td>
-                  <td>
-                    {{ item.placeOrderInfo }}
+                    {{ item.psReqStatus }}
                   </td>
                 </tr>
               </tbody>
             </VTable>
           </div>
         </VCard>
+      </VNavigationDrawer>
+      <VNavigationDrawer
+        v-model="isDrawerOpen"
+        right
+        temporary
+        v-if="isDrawerOpen == true"
+      >
+        <div class="container mx-auto p-4">
+          <div class="bg-white p-6">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">NAME:</span> {{ selectedUser.clientName }}
+                </p>
+                <p class="text-gray-600 text-sm"><span class="font-semibold">M:</span> {{ selectedUser.mobileNo }}</p>
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">CLIENTCODE: </span>{{ selectedUser.clientCode }}
+                </p>
+              </div>
+              <div class="pb-10">
+                <p class="text-gray-600 text-sm"><span class="font-semibold">PAN:</span>{{ selectedUser.panNo }}</p>
+                <p class="text-gray-600 text-sm"><span class="font-semibold">E: </span>{{ selectedUser.emailId }}</p>
+              </div>
+              <div class="pb-10">
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">BRANCH:</span
+                  >{{ selectedUser.branchCode ? selectedUser.branchCode : 'Not Available' }}
+                </p>
+                <p class="text-gray-600 text-sm">
+                  <span class="font-semibold">BRANCH EMAIL:</span>{{ selectedUser.email }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <!-- <v-card-title class="d-flex justify-center pa-6">
+            <h5 class="font-weight-bold">{{ selectedItem?.stockList.ClientId }}</h5>
+          </v-card-title>
+          <v-card-text class="d-flex justify-center">
+            <v-img :src="selectedItem?.stockList.image"></v-img>
+          </v-card-text> -->
+        <VTabs v-model="currentTab">
+          <VTab class="text-sm">Calls</VTab>
+          <VTab class="text-sm">Communication</VTab>
+          <VTab class="text-sm">Confirmation</VTab>
+          <VTab class="text-sm">ExistingOrder/PaymentStatus</VTab>
+          <VTab class="text-sm">Payment/OrderStatus</VTab>
+        </VTabs>
+
+        <VWindow
+          v-model="currentTab"
+          class="mt-5 max-h-screen"
+        >
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="p-5">
+              <VTable class="border">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase">Stock Symbol</th>
+                    <th class="text-uppercase">Quantity</th>
+                    <th class="text-uppercase">Buy / Sell</th>
+                    <th class="text-uppercase">Plan</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    v-for="item in info.stockList"
+                    :key="item.stockName"
+                  >
+                    <td>
+                      {{ item.stockName }}
+                    </td>
+                    <td>
+                      {{ item.quantity }}
+                    </td>
+                    <td>
+                      {{ item.buySell }}
+                    </td>
+                    <td>
+                      {{ item.plan }}
+                    </td>
+                  </tr>
+                </tbody>
+              </VTable>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Power Stocks to Email:</p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">1, Sent an email to Customer mail id</p>
+                  <p class="text-gray-600 text-sm">
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmail }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailSub }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailSentTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">2, Delivered email</p>
+                  <p class="text-gray-600 text-sm">
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmail }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailSub }}
+                    {{ info.recommentation_notify.emailNotifyLog.noteDEmailDelTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Power Stocks to Whatsapp:</p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">1, Sent an whatsapp to Customer mobile no</p>
+                  <p class="text-gray-600 text-sm">
+                    {{
+                      info.recommentation_notify.waNotifyLog.noteWAmessageSentTime
+                        ? info.recommentation_notify.waNotifyLog.noteWAmessageSentTime
+                        : 'No Data Available'
+                    }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">2, Delivered Whatsapp to Customer mobile no</p>
+                  <p class="text-gray-600 text-sm">
+                    {{
+                      info.recommentation_notify.waNotifyLog.noteWAmessageDeliveredTime
+                        ? info.recommentation_notify.waNotifyLog.noteWAmessageDeliveredTime
+                        : 'No Data Available'
+                    }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">
+                    Confirmed by Customer {{ info.confirm_status.confirmationFrom }} at
+                    {{ info.confirm_status.confirmStatusDateTime }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">
+                    Existing Order Placed at {{ info.order_payin_notify.payinNotifyDateTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Reason:</p>
+                </div>
+              </div>
+            </div>
+          </VWindowItem>
+          <VWindowItem class="h-full overflow-y-auto">
+            <div class="container mx-auto p-4">
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">
+                    Order Placed at{{ info.placeOrder_payin_notify.payinNotifyDateTime }}
+                  </p>
+                </div>
+                <div class="mb-4">
+                  <p class="text-gray-600 text-sm">Reason:</p>
+                </div>
+              </div>
+            </div>
+          </VWindowItem>
+        </VWindow>
       </VNavigationDrawer>
     </v-container>
   </div>
@@ -179,6 +349,7 @@ export default {
       search: '',
       isOpen: false,
       isEditDrawerOpen: false,
+      isDrawerOpen: false,
       pending: false,
       columnVisibility: {
         ClientId: true,
@@ -200,6 +371,16 @@ export default {
       },
       startDate: '',
       endDate: '',
+      info: {},
+      selectedUser: {
+        useName: '',
+        email: '',
+        panNo: '',
+        branchCode: '',
+        mobileNo: '',
+        emailId: '',
+        clientCode: '',
+      },
     }
   },
 
@@ -346,6 +527,49 @@ export default {
       this.orderData(data)
       this.isEditDrawerOpen = true
       // }
+    },
+    async enableNav(data) {
+      console.log(data, 'adata')
+      this.selectedUser.email = data.branchEmail
+      this.selectedUser.clientName = data.clientName
+      this.selectedUser.panNo = data.panNo
+      this.selectedUser.branchCode = data.branchCode
+      this.selectedUser.mobileNo = data.mobileNo
+      this.selectedUser.emailId = data.emailId
+      this.selectedUser.clientCode = data.ClientId
+      this.detailedView(data.ClientId, data.bulkReqId)
+      this.isDrawerOpen = true
+    },
+    async detailedView(clientCode, bulkRedId) {
+      try {
+        const data = {
+          clientCode: clientCode,
+          requestId: bulkRedId,
+        }
+
+        const params = new URLSearchParams()
+        Object.keys(data).forEach(key => {
+          params.append(key, data[key])
+        })
+
+        const config = {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }
+
+        const response = await axios.post(
+          'https://g1.gwcindia.in/powerstocks/powerStocksView-single.php',
+          params,
+          config,
+        )
+        this.info = response.data
+        // Debug after successful response
+        console.log(response.data, 'response.data11')
+      } catch (err) {
+        console.error('Error:', err)
+      } finally {
+      }
     },
     formatDate(date) {
       return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`
