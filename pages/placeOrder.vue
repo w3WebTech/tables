@@ -347,6 +347,8 @@ export default {
   data() {
     return {
       search: '',
+      currentTab: 0,
+
       isOpen: false,
       isEditDrawerOpen: false,
       isDrawerOpen: false,
