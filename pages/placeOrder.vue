@@ -308,8 +308,50 @@
                     Existing Order Placed at {{ info.order_payin_notify.payinNotifyDateTime }}
                   </p>
                 </div>
-                <div class="mb-4">
-                  <p class="text-gray-600 text-sm">Reason:</p>
+                <div class="">
+                  <p>Reason:</p>
+                </div>
+                <div class="flex">
+                  <div
+                    class="text-gray-600"
+                    v-if="info.stockList[0].placeOrderInfo.placeOrderRemarks"
+                  >
+                    Remarks:
+                  </div>
+                  <div
+                    class="text-gray-600 text-sm ml-11"
+                    v-if="info.stockList[0].placeOrderInfo.placeOrderRemarks"
+                  >
+                    {{ info.stockList[0].placeOrderInfo.placeOrderRemarks }}
+                  </div>
+                </div>
+                <div class="flex mt-2">
+                  <div
+                    class="text-gray-600"
+                    v-if="info.stockList[0].placeOrderInfo.placeOrderDateTime"
+                  >
+                    Date & Time:
+                  </div>
+                  <div
+                    class="text-gray-600 text-sm ml-5"
+                    v-if="info.stockList[0].placeOrderInfo.placeOrderDateTime"
+                  >
+                    {{ info.stockList[0].placeOrderInfo.placeOrderDateTime }}
+                  </div>
+                </div>
+                <div class="flex my-2">
+                  <div
+                    class="text-gray-600"
+                    v-if="info.stockList[0].placeOrderInfo.placeOrderNo"
+                  >
+                    Order No:
+                  </div>
+                  <div
+                    class="text-gray-600 text-sm ml-10"
+                    v-if="info.stockList[0].placeOrderInfo.placeOrderNo"
+                  >
+                    {{ info.stockList[0].placeOrderInfo.placeOrderNo }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -348,7 +390,6 @@ export default {
     return {
       search: '',
       currentTab: 0,
-
       isOpen: false,
       isEditDrawerOpen: false,
       isDrawerOpen: false,
