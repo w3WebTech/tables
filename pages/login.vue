@@ -44,22 +44,59 @@
                 :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
-
-              <!-- remember me checkbox -->
-              <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox
-                  v-model="form.remember"
-                  label="Remember me"
-                />
-
-                <!-- <a
-                  class="ms-2 mb-1"
-                  href="javascript:void(0)"
+            </VCol>
+            <!-- remember me checkbox -->
+            <VRow>
+              <VCol cols="2"
+                ><div
+                  class="text-[15px]"
+                  style="margin-left: 10px; margin-top: 12px"
+                  v-if="showOtp == true"
                 >
-                  Forgot Password?
-                </a> -->
-              </div>
+                  OTP
+                </div></VCol
+              >
+              <VCol cols="10">
+                <div class="flex justify-center">
+                  <div
+                    id="inputs"
+                    class="inputs"
+                    v-if="showOtp == true"
+                  >
+                    <input
+                      class="input"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="1"
+                      @input="handleInput($event, 0)"
+                    />
+                    <input
+                      class="input"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="1"
+                      @input="handleInput($event, 1)"
+                    />
+                    <input
+                      class="input"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="1"
+                      @input="handleInput($event, 2)"
+                    />
+                    <input
+                      class="input"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="1"
+                      @input="handleInput($event, 3)"
+                    />
+                  </div>
+                </div>
+              </VCol>
+            </VRow>
 
+            <VCol cols="12">
               <!-- login button -->
               <VBtn
                 block
@@ -135,8 +172,54 @@
     />
   </div>
 </template>
-<style lang="scss" scoped>
+<style lang="scss" >
 @use '@core/scss/pages/page-auth.scss';
+[type='text'],
+input:where(:not([type])),
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+select {
+  --tw-ring-color: none !important;
+}
+.container {
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // min-height: 100vh;
+}
+
+.input {
+  width: 55px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid rgba(161, 159, 159, 0.5);
+  margin: 0 10px;
+  text-align: center;
+  font-size: 15px;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.input:focus {
+  border: 2px solid #2b58a3;
+  outline: none;
+}
+
+.input:nth-child(1) {
+  cursor: pointer;
+  pointer-events: all;
+}
 </style>
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
@@ -148,12 +231,69 @@ import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
+import { ref } from 'vue'
 import { userDataStore } from '~/stores/tableData'
 const userStore = userDataStore()
 const router = useRouter()
 let allowedIps = ref([])
+let allowedOtps = ref([])
 let userIp = ref('')
 let userIdArray = ref([])
+
+const otp = ref('')
+let arrr = ref([])
+
+console.log(arrr, 'arrr')
+
+onMounted(() => {
+  debugger
+  if (document.getElementById('inputs')) {
+    inputs.value = document.getElementById('inputs')
+
+    inputs.value.addEventListener('input', function (e) {
+      const target = e.target
+      const val = target.value
+
+      if (isNaN(val)) {
+        target.value = ''
+        return
+      }
+
+      if (val != '') {
+        arrr.value.push(val)
+        const next = target.nextElementSibling
+        if (next) {
+          next.focus()
+        }
+      }
+
+      // Update the OTP value
+      const otpValues = Array.from(inputs.value.children).map(input => input.value)
+      otp.value = otpValues.join('')
+    })
+
+    inputs.value.addEventListener('keyup', function (e) {
+      const target = e.target
+      const key = e.key.toLowerCase()
+
+      if (key == 'backspace' || key == 'delete') {
+        target.value = ''
+        const prev = target.previousElementSibling
+        if (prev) {
+          prev.focus()
+        }
+        return
+      }
+
+      // Update the OTP value
+      const otpValues = Array.from(inputs.value.children).map(input => input.value)
+      otp.value = otpValues.join('')
+    })
+  }
+
+  console.log(otp.value, 'inputs')
+})
+
 const isValidEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return emailRegex.test(email)
@@ -162,7 +302,53 @@ const isValidEmail = (email: string) => {
 const isValidPassword = (password: string) => {
   return password.length === 6
 }
+const handleInput = (event, index) => {
+  const target = event.target
+  const val = target.value
 
+  // Check if the input value is valid (numeric and length 1)
+  if (!/^\d$/.test(val)) {
+    target.value = '' // Reset if invalid
+    return
+  }
+
+  // Update the OTP array
+  arrr.value[index] = val // Store value at specific index
+  const nextInput = target.nextElementSibling
+
+  // Move focus to the next input if available
+  if (nextInput) {
+    nextInput.focus()
+  }
+
+  // Update the OTP value
+  updateOtpValue()
+}
+
+const updateOtpValue = () => {
+  otp.value = arrr.value.join('') // Join the values for OTP
+}
+
+// For backspace handling, you can use the keyup event
+const handleKeyUp = (event, index) => {
+  const target = event.target
+  const key = event.key.toLowerCase()
+
+  if (key === 'backspace') {
+    if (target.value === '') {
+      // Focus the previous input when backspace is pressed on empty field
+      const prevInput = target.previousElementSibling
+      if (prevInput) {
+        prevInput.focus()
+      }
+    }
+    // Clear the corresponding index in the OTP array
+    arrr.value[index] = ''
+    updateOtpValue()
+  }
+}
+
+let showOtp = ref(false)
 const isValidForm = computed(() => {
   return isValidEmail(form.value.email) && isValidPassword(form.value.password)
 })
@@ -190,13 +376,32 @@ const handleLogin = async () => {
       alert('Invalid email or password')
     }
   } else {
-    alert('Access denied. Your IP address is not allowed.')
+    debugger
+    showOtp.value = true
+
+    if (allowedOtps.includes(otp.value)) {
+      const enteredEmail = form.value.email
+      const enteredPassword = form.value.password
+
+      const foundUser = userIdArray.find(user => user.eMail === enteredEmail && user.passWord === enteredPassword)
+
+      if (foundUser) {
+        userStore.setUser(enteredEmail, enteredPassword)
+
+        router.push('/tableData')
+      } else {
+        alert('Invalid email or password')
+      }
+    } else if (otp.value != '' && !allowedOtps.includes(otp.value)) {
+      alert('Invalid OTP ! , Please Enter Valid One !!!')
+    }
   }
 }
 const getIp = async () => {
   try {
     const response = await axios.get('https://g1.gwcindia.in/powerstocks/ipadress.php')
-    allowedIps = response.data
+    allowedIps = response.data.ips
+    allowedOtps = response.data.otps
     // Debug after successful response
     console.log(response.data, 'response.data') // Ensure this logs the expected data structure
   } catch (err) {
